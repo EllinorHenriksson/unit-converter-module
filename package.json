@@ -1,0 +1,25 @@
+{
+  "name": "converter",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "lint": "npx eslint ./src || exit 0",
+    "lint:fix": "npx eslint ./src --fix || exit 0"  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EllinorHenriksson/converter.git"
+  },
+  "keywords": [],
+  "author": "Ellinor Henriksson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EllinorHenriksson/converter/issues"
+  },
+  "homepage": "https://github.com/EllinorHenriksson/converter#readme",
+  "devDependencies": {
+    "@lnu/eslint-config": "^1.1.6"
+  }
+}
