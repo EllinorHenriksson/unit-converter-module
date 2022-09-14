@@ -1,10 +1,15 @@
 import { Validator } from '../validator.js'
-import { LengthUnits } from '../units/lengthUnits.js'
+import { TimeUnits } from '../units/timeUnits.js'
 
 /**
- * Represents a length measurement.
+ * Represents a time measurement.
  */
-export class Length {
+export class Time {
+  /**
+   * The avalable units.
+   */
+  #units = TimeUnits
+
   /**
    * The quantity in the given unit.
    *
@@ -20,22 +25,22 @@ export class Length {
   #unit
 
   /**
-   * The quantity in meters.
+   * The quantity in seconds.
    *
    * @type {number}
    */
-  #quantityInMeters
+  #quantityInSeconds
 
   /**
-   * Instantiates a Length object.
+   * Instantiates a Time object.
    *
    * @param {number} quantity - The quantity
-   * @param {string} unit The length unit
+   * @param {string} unit The time unit
    */
   constructor (quantity, unit) {
     this.#setQuantity(quantity)
     this.#setUnit(unit)
-    this.#setQuantityInMeters()
+    this.#setQuantityInSeconds()
   }
 
   /**
@@ -49,47 +54,47 @@ export class Length {
   }
 
   /**
-   * Validates and sets the length unit.
+   * Validates and sets the time unit.
    *
-   * @param {string} unit - The length unit
+   * @param {string} unit - The time unit
    */
   #setUnit (unit) {
-    Validator.validateLengthUnit(unit)
+    Validator.validateUnit(unit, this.#units)
     this.#unit = this.#retrieveUnit(unit)
   }
 
   /**
-   * Retrieves the corresponding length unit object.
+   * Retrieves the corresponding time unit object.
    *
    * @param {string} unit - The abbreviation of the unit to look for
-   * @returns {object} The unit object, with properties 'abbreviation' and 'ratio'
+   * @returns {object} The unit object, with properties 'abbr' and 'ratio'
    */
   #retrieveUnit (unit) {
     let unitObject
-    for (const key in LengthUnits) {
-      if (LengthUnits[key].abbr === unit) {
-        unitObject = LengthUnits[key]
+    for (const key in this.#units) {
+      if (this.#units[key].abbr === unit) {
+        unitObject = this.#units[key]
       }
     }
     return unitObject
   }
 
   /**
-   * Calculates and sets the quantity in meters.
+   * Calculates and sets the quantity in seconds.
    */
-  #setQuantityInMeters () {
-    this.#quantityInMeters = this.#quantity * this.#unit.ratio
+  #setQuantityInSeconds () {
+    this.#quantityInSeconds = this.#quantity * this.#unit.ratio
   }
 
   /**
-   * Converts the length to the given unit and returns the resulting quantity.
+   * Converts the time to the given unit and returns the resulting quantity.
    *
    * @param {string} unit - The unit to convert to
    * @param {number} numberOfDecimals - The number of decimals wanted in the result @optional
    * @returns {number} The resulting quantity
    */
   convertTo (unit, numberOfDecimals) {
-    Validator.validateLengthUnit(unit)
+    Validator.validateUnit(unit, this.#units)
     const unitObject = this.#retrieveUnit(unit)
     let quantity = this.#calculateQuantity(unitObject.ratio)
 
@@ -108,24 +113,24 @@ export class Length {
    * @returns {number} The resulting quantity
    */
   #calculateQuantity (ratio) {
-    return this.#quantityInMeters / ratio
+    return this.#quantityInSeconds / ratio
   }
 
   /**
-   * Returns a string representing the length measurement.
+   * Returns a string representing the time measurement.
    *
    * @returns {string} The string representation.
    */
   toString () {
-    return `${this.#quantity}${this.#unit.abbr} (${this.#quantityInMeters}m)`
+    return `${this.#quantity}${this.#unit.abbr} (${this.#quantityInSeconds}s)`
   }
 
   /**
-   * Returns an array with all available length units as abbreviations.
+   * Creates and returns an array with all available time units as abbreviations.
    *
    * @returns {string[]} - The created array.
    */
   static getUnits () {
-    return Object.values(LengthUnits).map(x => x.abbr)
+    return Object.values(TimeUnits).map(x => x.abbr)
   }
 }

@@ -35,7 +35,7 @@ export class Validator {
   }
 
   /**
-   * Validates length unit, wich must be of the enum type LengthUnits.
+   * Validates length unit, wich must be equal to one of the units represented in the LengthUnits object.
    *
    * @param {string} unit - The unit.
    */
@@ -44,6 +44,20 @@ export class Validator {
 
     if (!lengthUnits.includes(unit)) {
       throw new Error('The length unit must be any of the following: ' + lengthUnits.join(', '))
+    }
+  }
+
+  /**
+   * Validates a unit, wich must be equal to one of the units represented in the units object.
+   *
+   * @param {string} unit - The unit to validate.
+   * @param {object} units - The units to validate against.
+   */
+  static validateUnit (unit, units) {
+    const unitAbbreviations = Object.values(units).map(x => x.abbr)
+
+    if (!unitAbbreviations.includes(unit)) {
+      throw new Error('The unit must be any of the following: ' + unitAbbreviations.join(', '))
     }
   }
 }
