@@ -1,4 +1,4 @@
-import { LengthUnits } from './units/lengthUnits.js'
+import { LengthUnits } from './units.js'
 
 /**
  * Represents a validator.
@@ -40,7 +40,7 @@ export class Validator {
    * @param {string} unit - The unit.
    */
   static validateLengthUnit (unit) {
-    const lengthUnits = Object.values(LengthUnits).map(x => x.abbr)
+    const lengthUnits = Object.values(LengthUnits)
 
     if (!lengthUnits.includes(unit)) {
       throw new Error('The length unit must be any of the following: ' + lengthUnits.join(', '))

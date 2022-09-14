@@ -1,7 +1,9 @@
-import { Converter } from '../src/index.js'
+import { Length } from '../src/index.js'
 
-const converter = new Converter(2)
+// Retrieves and prints the available length units
+const lengthUnits = Length.getUnits()
+console.log(`Avaliable length units: ${lengthUnits.join(', ')}`)
 
-const result = converter.length(15, 'miles').to('km')
-
-console.log(result)
+// Creates a length object and prints its information
+const myLengthInCentimeters = new Length(169, 'cm')
+console.log(`My length: ${myLengthInCentimeters.toString()}`)
