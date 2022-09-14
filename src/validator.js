@@ -1,5 +1,3 @@
-import { LengthUnits } from './units/lengthUnits.js'
-
 /**
  * Represents a validator.
  */
@@ -31,19 +29,6 @@ export class Validator {
       throw new TypeError(errorMessage)
     } else if (numberOfDecimals < 0) {
       throw new RangeError(errorMessage)
-    }
-  }
-
-  /**
-   * Validates length unit, wich must be equal to one of the units represented in the LengthUnits object.
-   *
-   * @param {string} unit - The unit.
-   */
-  static validateLengthUnit (unit) {
-    const lengthUnits = Object.values(LengthUnits).map(x => x.abbr)
-
-    if (!lengthUnits.includes(unit)) {
-      throw new Error('The length unit must be any of the following: ' + lengthUnits.join(', '))
     }
   }
 

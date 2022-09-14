@@ -1,5 +1,5 @@
 import { Validator } from '../validator.js'
-import { LengthUnits } from '../units/lengthUnits.js'
+import { LengthUnits as Units } from '../units/lengthUnits.js'
 
 /**
  * Represents a length measurement.
@@ -20,11 +20,11 @@ export class Length {
   #unit
 
   /**
-   * The quantity in meters.
+   * The standard unit quantity.
    *
    * @type {number}
    */
-  #quantityInMeters
+  #standardUnitQuantity
 
   /**
    * Instantiates a Length object.
@@ -35,7 +35,7 @@ export class Length {
   constructor (quantity, unit) {
     this.#setQuantity(quantity)
     this.#setUnit(unit)
-    this.#setQuantityInMeters()
+    this.#setStandardUnitQuantity()
   }
 
   /**
@@ -49,47 +49,47 @@ export class Length {
   }
 
   /**
-   * Validates and sets the length unit.
+   * Validates and sets the measurement unit.
    *
-   * @param {string} unit - The length unit
+   * @param {string} unit - The measurement unit
    */
   #setUnit (unit) {
-    Validator.validateLengthUnit(unit)
+    Validator.validateUnit(unit, Units)
     this.#unit = this.#retrieveUnit(unit)
   }
 
   /**
-   * Retrieves the corresponding length unit object.
+   * Retrieves the corresponding measurement unit object.
    *
    * @param {string} unit - The abbreviation of the unit to look for
    * @returns {object} The unit object, with properties 'abbreviation' and 'ratio'
    */
   #retrieveUnit (unit) {
     let unitObject
-    for (const key in LengthUnits) {
-      if (LengthUnits[key].abbr === unit) {
-        unitObject = LengthUnits[key]
+    for (const key in Units) {
+      if (Units[key].abbr === unit) {
+        unitObject = Units[key]
       }
     }
     return unitObject
   }
 
   /**
-   * Calculates and sets the quantity in meters.
+   * Calculates and sets the standard unit quantity.
    */
-  #setQuantityInMeters () {
-    this.#quantityInMeters = this.#quantity * this.#unit.ratio
+  #setStandardUnitQuantity () {
+    this.#standardUnitQuantity = this.#quantity * this.#unit.ratio
   }
 
   /**
-   * Converts the length to the given unit and returns the resulting quantity.
+   * Converts the measurement to the given unit and returns the resulting quantity.
    *
    * @param {string} unit - The unit to convert to
    * @param {number} numberOfDecimals - The number of decimals wanted in the result @optional
    * @returns {number} The resulting quantity
    */
   convertTo (unit, numberOfDecimals) {
-    Validator.validateLengthUnit(unit)
+    Validator.validateUnit(unit, Units)
     const unitObject = this.#retrieveUnit(unit)
     let quantity = this.#calculateQuantity(unitObject.ratio)
 
@@ -108,7 +108,7 @@ export class Length {
    * @returns {number} The resulting quantity
    */
   #calculateQuantity (ratio) {
-    return this.#quantityInMeters / ratio
+    return this.#standardUnitQuantity / ratio
   }
 
   /**
@@ -117,15 +117,15 @@ export class Length {
    * @returns {string} The string representation.
    */
   toString () {
-    return `${this.#quantity}${this.#unit.abbr} (${this.#quantityInMeters}m)`
+    return `${this.#quantity}${this.#unit.abbr} (${this.#standardUnitQuantity}m)`
   }
 
   /**
-   * Returns an array with all available length units as abbreviations.
+   * Returns an array with all available units as abbreviations.
    *
    * @returns {string[]} - The created array.
    */
   static getUnits () {
-    return Object.values(LengthUnits).map(x => x.abbr)
+    return Object.values(Units).map(x => x.abbr)
   }
 }
