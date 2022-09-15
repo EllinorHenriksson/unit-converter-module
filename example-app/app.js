@@ -1,4 +1,4 @@
-import { Length, Time } from '../src/index.js'
+import { Length, Time } from '../src3/index.js'
 
 // Retrieves and prints the available length units
 const lengthUnits = Length.getUnits()
@@ -19,3 +19,6 @@ console.log(`My length in inches with 2 decimals: ${myLengthInInches}`)
 const myTimeInSeconds = new Time(30, 's')
 console.log(myTimeInSeconds.toString())
 console.log(Time.getUnits())
+
+const totalLengthInM = Length.convertMany([new Length(1, 'm'), new Length(1, 'dm'), new Length(2, 'cm')], 'm', 2)
+console.log(totalLengthInM)

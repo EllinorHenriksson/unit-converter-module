@@ -1,7 +1,25 @@
+import { LengthUnits } from './units/lengthUnits.js'
+import { TimeUnits } from './units/timeUnits.js'
+
 /**
  * Represents a validator.
  */
 export class Validator {
+  /**
+   * Validates quantity, wich must be a number greater than 0.
+   *
+   * @param {number} quantity - The quantity.
+   */
+  static validateQuantity (quantity) {
+    const errorMessage = 'Quantity must be a number greater than 0.'
+
+    if (typeof quantity !== 'number') {
+      throw new TypeError(errorMessage)
+    } else if (quantity <= 0) {
+      throw new RangeError(errorMessage)
+    }
+  }
+
   /**
    * Validates a unit, wich must be equal to one of the units represented in the units object.
    *
