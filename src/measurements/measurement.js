@@ -2,6 +2,8 @@ import { Validator } from '../validator.js'
 
 /**
  * Represents a measurement.
+ *
+ * @abstract
  */
 export class Measurement {
   /**
@@ -40,10 +42,25 @@ export class Measurement {
    * @param {units} units - The available units
    */
   constructor (quantity, unit, units) {
+    // Make the class abstract
+    if (this.constructor === Measurement) {
+      throw new Error('Class "Measurement" cannot be instantiated.')
+    }
+
     this.#setUnits(units)
     this.#setQuantity(quantity)
     this.#setUnit(unit)
     this.#setStandardUnitQuantity()
+  }
+
+  /**
+   * Validates and sets the units of the measurement.
+   *
+   * @param {object} units - A reference to a units object (e.g. LengthUnits)
+   */
+  #setUnits (units) {
+    Validator.validateUnits(units)
+    this.#units = units
   }
 
   /**
@@ -63,6 +80,17 @@ export class Measurement {
    */
   get quantity () {
     return this.#quantity
+  }
+
+  /**
+   * Rounds off the quantity to the given decimal number and returns the result.
+   *
+   * @param {number} numberOfDecimals - The number of decimals to round off to.
+   * @returns {number} - The resulting quantity.
+   */
+  getQuantityWithDecimals (numberOfDecimals) {
+    Validator.validateNumberOfDecimals(numberOfDecimals)
+    return Number(this.#quantity.toFixed(numberOfDecimals))
   }
 
   /**
@@ -88,7 +116,7 @@ export class Measurement {
    * Retrieves the corresponding measurement unit object.
    *
    * @param {string} unit - The abbreviation of the unit to look for
-   * @returns {object} The unit object, with properties 'abbreviation' and 'ratio'
+   * @returns {object} The unit object, with properties 'abbr' and 'ratio'
    */
   #retrieveUnit (unit) {
     let unitObject
@@ -108,7 +136,7 @@ export class Measurement {
   }
 
   /**
-   *Gets the standard unit quantity.
+   * Gets the standard unit quantity.
    *
    * @returns {number} The standard unit quantity.
    */
@@ -117,33 +145,19 @@ export class Measurement {
   }
 
   /**
-   * Validates and sets the units of the measurement.
-   *
-   * @param {object} units - A reference to a units object (e.g. LengthUnits)
-   */
-  #setUnits (units) {
-    Validator.validateUnits(units)
-    this.#units = units
-  }
-
-  /**
-   * Converts the measurement to the given unit and returns the resulting quantity.
+   * Converts the measurement to the given unit and returns the measurement.
    *
    * @param {string} unit - The unit to convert to
-   * @param {number} numberOfDecimals - The number of decimals wanted in the result @optional
-   * @returns {number} The resulting quantity
+   * @returns {Measurement} The measurement
    */
-  convertTo (unit, numberOfDecimals) {
+  convertTo (unit) {
     Validator.validateUnit(unit, this.#units)
     const unitObject = this.#retrieveUnit(unit)
-    let quantity = this.#calculateQuantity(unitObject.ratio)
+    const quantity = this.#calculateQuantity(unitObject.ratio)
 
-    if (numberOfDecimals) {
-      Validator.validateNumberOfDecimals(numberOfDecimals)
-      quantity = Number(quantity.toFixed(numberOfDecimals))
-    }
-
-    return quantity
+    this.#setQuantity(quantity)
+    this.#setUnit(unit)
+    return this
   }
 
   /**
@@ -154,5 +168,14 @@ export class Measurement {
    */
   #calculateQuantity (ratio) {
     return this.#standardUnitQuantity / ratio
+  }
+
+  /**
+   * Abstract method.
+   *
+   * @abstract
+   */
+  toString () {
+    throw new Error('Method "toString()" must be implemented.')
   }
 }

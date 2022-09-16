@@ -19,6 +19,7 @@ export class Length extends Measurement {
   /**
    * Returns a string representing the length measurement.
    *
+   * @override
    * @returns {string} The string representation.
    */
   toString () {
@@ -36,27 +37,25 @@ export class Length extends Measurement {
 
   /**
    * Converts many measurements into one measurement of the given unit.
-   * 
-   * @param {*} measurements 
-   * @param {*} unit 
-   * @param {*} numberOfDecimals 
-   * @returns 
+   *
+   * @param {Measurement[]} measurements - An array of Measurement sub types
+   * @param {string} unit - The unit to convert the measurements to
+   * @returns {Measurement} The resulting measurement
    */
-  static convertMany () {
+  static convertManyTo (measurements, unit) {
     measurements.forEach(x => {
       Validator.validateMeasurement(x, this)
     })
 
-    let totalQuantity = 0
     measurements.forEach(x => {
-      totalQuantity += x.convertTo(unit)
+      x.convertTo(unit)
     })
 
-    if (numberOfDecimals) {
-      Validator.validateNumberOfDecimals(numberOfDecimals)
-      totalQuantity = Number(totalQuantity.toFixed(numberOfDecimals))
-    }
+    let totalQuantity = 0
+    measurements.forEach(x => {
+      totalQuantity += x.quantity
+    })
 
-    return totalQuantity
+    return new Length(totalQuantity, unit)
   }
 }

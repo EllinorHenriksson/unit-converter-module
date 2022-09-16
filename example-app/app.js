@@ -1,5 +1,5 @@
-import { Length, Time } from '../src3/index.js'
-
+import { Length } from '../src/index.js'
+/*
 // Retrieves and prints the available length units
 const lengthUnits = Length.getUnits()
 console.log(`Avaliable length units: ${lengthUnits.join(', ')}`)
@@ -22,3 +22,6 @@ console.log(Time.getUnits())
 
 const totalLengthInM = Length.convertMany([new Length(1, 'm'), new Length(1, 'dm'), new Length(2, 'cm')], 'm', 2)
 console.log(totalLengthInM)
+*/
+
+const myLength = new Length (10, 'm')
