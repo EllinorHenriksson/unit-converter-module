@@ -1,4 +1,4 @@
 import { Length } from './measurements/length.js'
-import { Measurement } from './measurements/measurement.js'
+import { Time } from './measurements/time.js'
 
-export { Length, Measurement }
+export { Length, Time }

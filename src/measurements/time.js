@@ -1,16 +1,16 @@
 import { Measurement } from './measurement.js'
-import { LengthUnits as Units } from '../units/lengthUnits.js'
+import { TimeUnits as Units } from '../units/timeUnits.js'
 import { Validator } from '../validator.js'
 
 /**
- * Represents a length measurement.
+ * Represents a time measurement.
  */
-export class Length extends Measurement {
+export class Time extends Measurement {
   /**
-   * Instantiates a Length object.
+   * Instantiates a Time object.
    *
    * @param {number} quantity - The quantity
-   * @param {string} unit The length unit
+   * @param {string} unit The time unit
    */
   constructor (quantity, unit) {
     super(quantity, unit, Units)
@@ -23,7 +23,7 @@ export class Length extends Measurement {
    * @returns {string} The string representation.
    */
   toString () {
-    return `${super.quantity}${super.unit.abbr} (${super.standardUnitQuantity}m)`
+    return `${super.quantity}${super.unit.abbr} (${super.standardUnitQuantity}s)`
   }
 
   /**
@@ -55,6 +55,6 @@ export class Length extends Measurement {
       totalQuantity += x.quantity
     })
 
-    return new Length(totalQuantity, unit)
+    return new Time(totalQuantity, unit)
   }
 }

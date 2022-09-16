@@ -90,7 +90,7 @@ export class Measurement {
    */
   getQuantityWithDecimals (numberOfDecimals) {
     Validator.validateNumberOfDecimals(numberOfDecimals)
-    return Number(this.#quantity.toFixed(numberOfDecimals))
+    return parseFloat(this.#quantity.toFixed(numberOfDecimals))
   }
 
   /**

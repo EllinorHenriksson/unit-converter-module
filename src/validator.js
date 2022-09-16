@@ -62,14 +62,19 @@ export class Validator {
   }
 
   /**
-   * Validates measurements, wich must be an array of measurements.
+   * Validates measurements, wich must be an array of instances of the calling class.
    *
    * @param {Measurement[]} measurements -The measurements
+   * @param {Measurement} callingClass - The calling class
    */
-  static validateMeasurements (measurements) {
+  static validateMeasurements (measurements, callingClass) {
     if (!Array.isArray(measurements)) {
       throw new TypeError('Measurements must be an array of measurements.')
     }
+
+    measurements.forEach(x => {
+      Validator.validateMeasurement(x, callingClass)
+    })
   }
 
   /**
