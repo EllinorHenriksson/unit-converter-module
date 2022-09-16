@@ -43,16 +43,19 @@ export class Length extends Measurement {
    * @returns {Measurement} The resulting measurement
    */
   static convertManyTo (measurements, unit) {
+    Validator.validateMeasurements(measurements)
+
     measurements.forEach(x => {
       Validator.validateMeasurement(x, this)
     })
 
+    const conversions = []
     measurements.forEach(x => {
-      x.convertTo(unit)
+      conversions.push(x.convertTo(unit))
     })
 
     let totalQuantity = 0
-    measurements.forEach(x => {
+    conversions.forEach(x => {
       totalQuantity += x.quantity
     })
 

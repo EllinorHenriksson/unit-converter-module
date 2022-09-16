@@ -1,6 +1,8 @@
 import { LengthUnits } from './units/lengthUnits.js'
 import { TimeUnits } from './units/timeUnits.js'
 
+import { Measurement } from './measurements/measurement.js'
+
 const UNITS = [LengthUnits, TimeUnits]
 
 /**
@@ -55,7 +57,18 @@ export class Validator {
    */
   static validateMeasurement (measurement, callingClass) {
     if (!(measurement instanceof callingClass)) {
-      throw new TypeError(`The measurement must be of the type ${callingClass}`)
+      throw new TypeError(`The measurement must be of the type ${callingClass.name}`)
+    }
+  }
+
+  /**
+   * Validates measurements, wich must be an array of measurements.
+   *
+   * @param {Measurement[]} measurements -The measurements
+   */
+  static validateMeasurements (measurements) {
+    if (!Array.isArray(measurements)) {
+      throw new TypeError('Measurements must be an array of measurements.')
     }
   }
 

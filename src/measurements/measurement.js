@@ -145,19 +145,17 @@ export class Measurement {
   }
 
   /**
-   * Converts the measurement to the given unit and returns the measurement.
+   * Converts the measurement to the given unit and returns a new measurement.
    *
    * @param {string} unit - The unit to convert to
-   * @returns {Measurement} The measurement
+   * @returns {Measurement} The new measurement
    */
   convertTo (unit) {
     Validator.validateUnit(unit, this.#units)
     const unitObject = this.#retrieveUnit(unit)
     const quantity = this.#calculateQuantity(unitObject.ratio)
 
-    this.#setQuantity(quantity)
-    this.#setUnit(unit)
-    return this
+    return new this.constructor(quantity, unit)
   }
 
   /**
