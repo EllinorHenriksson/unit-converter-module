@@ -1,9 +1,10 @@
 import { LengthUnits } from './units/lengthUnits.js'
 import { TimeUnits } from './units/timeUnits.js'
+import { SpeedUnits } from './units/speedUnits.js'
 
 import { Measurement } from './measurements/measurement.js'
 
-const UNITS = [LengthUnits, TimeUnits]
+const UNITS = [LengthUnits, TimeUnits, SpeedUnits]
 
 /**
  * Represents a validator.
@@ -50,14 +51,14 @@ export class Validator {
   }
 
   /**
-   * Validates a measurement, wich must be an instance of the calling class.
+   * Validates a measurement, wich must be an instance of a specific class.
    *
    * @param {object} measurement - The measurement to validate (e.g. length)
-   * @param {object} callingClass - The calling class
+   * @param {object} specificClass - The specific class
    */
-  static validateMeasurement (measurement, callingClass) {
-    if (!(measurement instanceof callingClass)) {
-      throw new TypeError(`The measurement must be of the type ${callingClass.name}`)
+  static validateMeasurement (measurement, specificClass) {
+    if (!(measurement instanceof specificClass)) {
+      throw new TypeError(`The measurement must be of the type ${specificClass.name}`)
     }
   }
 
@@ -75,20 +76,5 @@ export class Validator {
     measurements.forEach(x => {
       Validator.validateMeasurement(x, callingClass)
     })
-  }
-
-  /**
-   * Validates the number of decimals, wich must be an integer greater than or equal to 0.
-   *
-   * @param {number} numberOfDecimals - The number of decimals.
-   */
-  static validateNumberOfDecimals (numberOfDecimals) {
-    const errorMessage = 'Number of decimals must be an integer greater than or equal to 0.'
-
-    if (!Number.isInteger(numberOfDecimals)) {
-      throw new TypeError(errorMessage)
-    } else if (numberOfDecimals < 0) {
-      throw new RangeError(errorMessage)
-    }
   }
 }

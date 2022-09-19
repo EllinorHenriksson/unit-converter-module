@@ -83,17 +83,6 @@ export class Measurement {
   }
 
   /**
-   * Rounds off the quantity to the given decimal number and returns the result.
-   *
-   * @param {number} numberOfDecimals - The number of decimals to round off to.
-   * @returns {number} - The resulting quantity.
-   */
-  getQuantityWithDecimals (numberOfDecimals) {
-    Validator.validateNumberOfDecimals(numberOfDecimals)
-    return parseFloat(this.#quantity.toFixed(numberOfDecimals))
-  }
-
-  /**
    * Validates and sets the measurement unit.
    *
    * @param {string} unit - The measurement unit

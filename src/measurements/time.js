@@ -17,7 +17,7 @@ export class Time extends Measurement {
   }
 
   /**
-   * Returns a string representing the length measurement.
+   * Returns a string representing the speed measurement.
    *
    * @override
    * @returns {string} The string representation.
