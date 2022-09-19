@@ -107,7 +107,7 @@ export class Measurement {
    * @returns {object} The unit object.
    */
   get unit () {
-    return this.#unit.abbr
+    return this.#unit
   }
 
   /**

@@ -1,61 +1,47 @@
-import { Length, Time, Speed } from '../src/index.js'
+import { converter } from '../src/index.js'
 
-// ---------- Examples of the Time measurement ----------
-// Retrieves and prints the available length units
-const lengthUnits = Length.getUnits()
-console.log(`Avaliable length units: ${lengthUnits.join(', ')}`)
+/*
+console.log(converter.lengthUnits)
+console.log(converter.timeUnits)
+console.log(converter.speedUnits)
 
-// Creates a length object and prints its information
-const myLengthInCentimeters = new Length(169, 'cm')
-console.log(`My length: ${myLengthInCentimeters.toString()}`)
+const myLengthInM = converter.length(1, 'm')
+console.log(myLengthInM.toString())
 
-// Prints the information by getting quantity and abbreviation
-console.log(`My length: ${myLengthInCentimeters.quantity}${myLengthInCentimeters.unit.abbr}`)
+const myLengthInCm = myLengthInM.convertTo('cm')
+console.log(myLengthInCm.quantity, myLengthInCm.unit)
 
-// Converts the length to feet and prints its quantity
-const myLengthInFeet = myLengthInCentimeters.convertTo('ft')
-console.log(`My length in feet: ${myLengthInFeet.quantity}`)
+const length1 = converter.length(1, 'm')
+const length2 = converter.length(3, 'dm')
+const length3 = converter.length(23, 'cm')
 
-// Converts several length objects to one in meters
-const totalLengthInMeters = Length.convertManyTo([new Length(1, 'm'), new Length(1, 'dm'), new Length(2, 'cm')], 'm')
-console.log(totalLengthInMeters.toString())
+const totalLength = converter.convertManyTo([length1, length2, length3], 'cm')
+console.log(totalLength.toString())
 
-// ---------- Examples of the Time measurement ----------
-// Retrieves and prints the available time units
-const timeUnits = Time.getUnits()
-console.log(`Avaliable time units: ${timeUnits.join(', ')}`)
+// Time
+const myTimeInS = converter.time(60, 's')
+console.log(myTimeInS.toString())
 
-// Creates a time object and prints its information
-const myTimeInMinutes = new Time(30, 'min')
-console.log(`My time: ${myTimeInMinutes.toString()}`)
+const myTimeInMin = myTimeInS.convertTo('min')
+console.log(myTimeInMin.quantity, myTimeInMin.unit)
 
-// Prints the information by getting quantity and abbreviation
-console.log(`My time: ${myTimeInMinutes.quantity}${myTimeInMinutes.unit.abbr}`)
+const time1 = converter.time(1, 'h')
+const time2 = converter.time(3, 'min')
+const time3 = converter.time(23, 's')
 
-// Converts the time to hours and prints its quantity
-const myTimeInHours = myTimeInMinutes.convertTo('h')
-console.log(`My time in hours: ${myTimeInHours.quantity}`)
+const totalTime = converter.convertManyTo([time1, time2, time3], 's')
+console.log(totalTime.toString())
 
-// Converts several time objects to one in seconds
-const totalTimeInSeconds = Time.convertManyTo([new Time(1, 'h'), new Time(30, 'min'), new Time(5, 's')], 's')
-console.log(totalTimeInSeconds.toString())
+*/
 
-// ---------- Examples of the Speed measurement ----------
-// Retrieves and prints the available speed units
-const speedUnits = Speed.getUnits()
-console.log(`Avaliable speed units: ${speedUnits.join(', ')}`)
+// Speed
+const mySpeedInKmPerH = converter.speed(120, 'km/h')
+console.log(mySpeedInKmPerH.toString())
 
-// Creates a speed object using the default constructor and prints its information
-const mySpeedInKmPerH = new Speed(12, 'km/h')
-console.log(`My speed: ${mySpeedInKmPerH.toString()}`)
+const mySpeedInMPerS = mySpeedInKmPerH.convertTo('m/s')
+console.log(mySpeedInMPerS.quantity, mySpeedInMPerS.unit)
 
-// Prints the information by getting quantity and abbreviation
-console.log(`My speed: ${mySpeedInKmPerH.quantity}${mySpeedInKmPerH.unit.abbr}`)
-
-// Creates a speed object using the static method FromLengthAndTime and prints its information
-const mySpeedFromLengthAndTime = Speed.FromLengthAndTime(new Length(5, 'm'), new Time(2, 's'))
-console.log(`My speed: ${mySpeedFromLengthAndTime.toString()}`)
-
-// Converts the speed to mi/h and prints its quantity
-const mySpeedInMiPerH = mySpeedInKmPerH.convertTo('mi/h')
-console.log(`My speed in mi/h: ${mySpeedInMiPerH.quantity}`)
+const myLength = converter.length(2, 'm')
+const myTime = converter.time(4, 's')
+const mySpeedFromLengthAndTime = converter.speedFromLengthAndTime(myLength, myTime)
+console.log(mySpeedFromLengthAndTime.toString())

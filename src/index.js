@@ -1,5 +1,3 @@
-import { Length } from './measurements/length.js'
-import { Time } from './measurements/time.js'
-import { Speed } from './measurements/speed.js'
+import { Converter } from './converter.js'
 
-export { Length, Time, Speed }
+export const converter = new Converter()

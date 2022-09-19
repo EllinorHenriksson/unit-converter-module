@@ -3,7 +3,6 @@ import { TimeUnits } from './units/timeUnits.js'
 import { SpeedUnits } from './units/speedUnits.js'
 
 import { Measurement } from './measurements/measurement.js'
-import { SingleMeasurement } from './measurements/singleMeasurement.js'
 
 /**
  * Represents a validator.
@@ -76,26 +75,18 @@ export class Validator {
   }
 
   /**
-   * Validates single measurements, wich must be an array of single measurements of the same type.
+   * Validates measurements, wich must be an array of instances of the calling class.
    *
-   * @param {Measurement[]} singleMeasurements -The single measurements
+   * @param {Measurement[]} measurements -The measurements
+   * @param {Measurement} callingClass - The calling class
    */
-  validateSingleMeasurements (singleMeasurements) {
-    const errorMessage = 'Measurements must be an array of single measurements of the same type.'
-    if (!Array.isArray(singleMeasurements)) {
-      throw new TypeError(errorMessage)
+  validateMeasurements (measurements, callingClass) {
+    if (!Array.isArray(measurements)) {
+      throw new TypeError('Measurements must be an array of measurements.')
     }
 
-    singleMeasurements.forEach(x => {
-      if (!(x instanceof SingleMeasurement)) {
-        throw new TypeError(errorMessage)
-      }
+    measurements.forEach(x => {
+      Validator.validateMeasurement(x, callingClass)
     })
-
-    for (let i = 1; i < singleMeasurements.length; i++) {
-      if (singleMeasurements[i].constructor !== singleMeasurements[i - 1].constructor) {
-        throw new TypeError(errorMessage)
-      }
-    }
   }
 }
