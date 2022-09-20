@@ -41,8 +41,8 @@ export class Converter {
    *
    * @returns {string[]} The names.
    */
-  getMeasurementTypes () {
-    return this.#measurementTypes.map(x => x.name).join(', ')
+  get measurementTypes () {
+    return this.#measurementTypes.map(x => x.name)
   }
 
   /**

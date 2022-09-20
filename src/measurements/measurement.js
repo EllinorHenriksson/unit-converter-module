@@ -93,11 +93,11 @@ export class Measurement {
    * Sets the standard measurement unit object, with properties 'abbr' and 'ratio'.
    */
   #setStandardUnit () {
-    this.#units.forEach(x => {
-      if (x.ratio === 1) {
-        this.#standardUnit = x
+    for (const key in this.#units) {
+      if (this.#units[key].ratio === 1) {
+        this.#standardUnit = this.#units[key]
       }
-    })
+    }
   }
 
   /**
@@ -167,7 +167,25 @@ export class Measurement {
    * Calculates and sets the standard unit quantity.
    */
   #setStandardUnitQuantity () {
-    this.#standardUnitQuantity = this.#quantity * this.#unit.ratio
+    // Calculates the quantity with factors to create integers out of floating point numbers, wich otherwise may cause miscalculations
+    const quantityFactor = this.#getFloatFactor(this.#quantity)
+    const ratioFactor = this.#getFloatFactor(this.#unit.ratio)
+
+    this.#standardUnitQuantity = (this.#quantity * quantityFactor) * (this.#unit.ratio * ratioFactor) / (quantityFactor * ratioFactor)
+  }
+
+  /**
+   * Returns a factor to use in calculations with a float to avoid miscalculations.
+   *
+   * @param {number} float - The float wich the factor is for
+   * @returns {number} The factor
+   */
+  #getFloatFactor (float) {
+    const floatAsString = float.toString()
+
+    const noOfDecimalsInFloat = floatAsString.slice(floatAsString.indexOf('.')).length - 1
+
+    return 10 ** noOfDecimalsInFloat
   }
 
   /**
@@ -198,15 +216,8 @@ export class Measurement {
    *
    * @returns {Measurement} The new measurement
    */
-  convertToStandardUnit () {
-    let unit
-    this.#units.forEach(x => {
-      if (x.ratio === 1) {
-        unit = x.abbr
-      }
-    })
-
-    return this.convertTo(unit)
+  convertToStandard () {
+    return this.convertTo(this.#standardUnit.abbr)
   }
 
   /**
@@ -216,7 +227,11 @@ export class Measurement {
    * @returns {number} The resulting quantity
    */
   #calculateQuantity (ratio) {
-    return this.#standardUnitQuantity / ratio
+    // Calculates the quantity with factors to create integers out of floating point numbers, wich otherwise may cause miscalculations
+    const quantityFactor = this.#getFloatFactor(this.#standardUnitQuantity)
+    const ratioFactor = this.#getFloatFactor(ratio)
+
+    return ((this.#standardUnitQuantity * quantityFactor) / (ratio * ratioFactor)) / (quantityFactor / ratioFactor)
   }
 
   /**
@@ -226,11 +241,8 @@ export class Measurement {
    * @returns {boolean} True or false
    */
   isEqualTo (measurement) {
-    this.#validator.validateMeasurement(measurement, this)
-
-    const conversion = measurement.convertTo(this.#unit.abbr)
-
-    return this.quantity === conversion.quantity
+    this.#validator.validateMeasurement(measurement, this.constructor)
+    return this.#standardUnitQuantity === measurement.#standardUnitQuantity
   }
 
   /**
@@ -240,11 +252,8 @@ export class Measurement {
    * @returns {boolean} True or false
    */
   isLessThan (measurement) {
-    this.#validator.validateMeasurement(measurement, this)
-
-    const conversion = measurement.convertTo(this.#unit.abbr)
-
-    return this.quantity < conversion.quantity
+    this.#validator.validateMeasurement(measurement, this.constructor)
+    return this.#standardUnitQuantity < measurement.#standardUnitQuantity
   }
 
   /**
@@ -254,11 +263,8 @@ export class Measurement {
    * @returns {boolean} True or false
    */
   isGreaterThan (measurement) {
-    this.#validator.validateMeasurement(measurement, this)
-
-    const conversion = measurement.convertTo(this.#unit.abbr)
-
-    return this.quantity > conversion.quantity
+    this.#validator.validateMeasurement(measurement, this.constructor)
+    return this.#standardUnitQuantity > measurement.#standardUnitQuantity
   }
 
   /**

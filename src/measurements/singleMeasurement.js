@@ -11,7 +11,7 @@ export class SingleMeasurement extends Measurement {
    * @returns {SingleMeasurement} A new single measurement.
    */
   mergeWith (measurement) {
-    this.validator.validateMeasurement(measurement, this)
+    this.validator.validateMeasurement(measurement, this.constructor)
 
     const quantity = this.standardUnitQuantity + measurement.standardUnitQuantity
 
