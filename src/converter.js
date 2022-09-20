@@ -23,6 +23,11 @@ export class Converter {
 
   #speedUnits
 
+  #measurementTypes = [Length, Time, Speed]
+
+  /**
+   * Instantiates a Converter object.
+   */
   constructor () {
     this.#validator = new Validator()
 
@@ -31,26 +36,71 @@ export class Converter {
     this.#speedUnits = SpeedUnits
   }
 
+  /**
+   * Returns an array with the names of the available measurement types.
+   *
+   * @returns {string[]} The names.
+   */
+  getMeasurementTypes () {
+    return this.#measurementTypes.map(x => x.name).join(', ')
+  }
+
+  /**
+   * Gets the available length units as an array of abbreviations.
+   *
+   * @returns {string[]} The abbreviations
+   */
   get lengthUnits () {
     return Object.values(this.#lengthUnits).map(x => x.abbr)
   }
 
+  /**
+   * Gets the available time units as an array of abbreviations.
+   *
+   * @returns {string[]} The abbreviations
+   */
   get timeUnits () {
     return Object.values(this.#timeUnits).map(x => x.abbr)
   }
 
+  /**
+   * Gets the available speed units as an array of abbreviations.
+   *
+   * @returns {string[]} The abbreviations
+   */
   get speedUnits () {
     return Object.values(this.#speedUnits).map(x => x.abbr)
   }
 
+  /**
+   * Creates and returns a Length object.
+   *
+   * @param {number} quantity - The quantity
+   * @param {string} unit - The abbreviation of the length unit
+   * @returns {Length} The Length object
+   */
   length (quantity, unit) {
     return new Length(quantity, unit)
   }
 
+  /**
+   * Creates and returns a Time object.
+   *
+   * @param {number} quantity - The quantity
+   * @param {string} unit - The abbreviation of the time unit
+   * @returns {Time} The Time object
+   */
   time (quantity, unit) {
     return new Time(quantity, unit)
   }
 
+  /**
+   * Creates and returns a Speed object.
+   *
+   * @param {number} quantity - The quantity
+   * @param {string} unit - The abbreviation of the speed unit
+   * @returns {Speed} The Speed object
+   */
   speed (quantity, unit) {
     return new Speed(quantity, unit)
   }
@@ -71,25 +121,20 @@ export class Converter {
   }
 
   /**
-   * Converts many single measurements into one single measurement of the given unit.
+   * Merges many single measurements of the same type into one single measurement in the standard unit.
    *
-   * @param {SingleMeasurement[]} singleMeasurements - An array of SingleMeasurement sub types
-   * @param {string} unit - The unit to convert the measurements to
-   * @returns {SingleMeasurement} The resulting measurement
+   * @param {SingleMeasurement[]} measurements - An array of SingleMeasurement sub types
+   * @returns {SingleMeasurement} The resulting single measurement
    */
-  convertManyTo (singleMeasurements, unit) {
-    this.#validator.validateSingleMeasurements(singleMeasurements)
+  mergeAll (measurements) {
+    this.#validator.validateSingleMeasurements(measurements)
 
-    const conversions = []
-    singleMeasurements.forEach(x => {
-      conversions.push(x.convertTo(unit))
-    })
+    let merge = measurements[0]
 
-    let totalQuantity = 0
-    conversions.forEach(x => {
-      totalQuantity += x.quantity
-    })
+    for (let i = 0; i < measurements.length - 1; i++) {
+      merge = merge.mergeWith(measurements[i + 1])
+    }
 
-    return new singleMeasurements[0].constructor(totalQuantity, unit)
+    return merge
   }
 }

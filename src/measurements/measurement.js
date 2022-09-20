@@ -28,6 +28,13 @@ export class Measurement {
   #standardUnitQuantity
 
   /**
+   * The standard unit, with properties 'abbr' and 'ratio'.
+   *
+   * @type {object}
+   */
+  #standardUnit
+
+  /**
    * The available units of the measurement.
    *
    * @type {object}
@@ -57,9 +64,19 @@ export class Measurement {
     this.#validator = new Validator()
 
     this.#setUnits(units)
+    this.#setStandardUnit()
     this.#setQuantity(quantity)
     this.#setUnit(unit)
     this.#setStandardUnitQuantity()
+  }
+
+  /**
+   * Gets a copy of the validator.
+   *
+   * @returns {Validator} The validator copy.
+   */
+  get validator () {
+    return new Validator()
   }
 
   /**
@@ -70,6 +87,26 @@ export class Measurement {
   #setUnits (units) {
     this.#validator.validateUnits(units)
     this.#units = units
+  }
+
+  /**
+   * Sets the standard measurement unit object, with properties 'abbr' and 'ratio'.
+   */
+  #setStandardUnit () {
+    this.#units.forEach(x => {
+      if (x.ratio === 1) {
+        this.#standardUnit = x
+      }
+    })
+  }
+
+  /**
+   * Gets the standard unit object, with properties 'abbr' and 'ratio'.
+   *
+   * @returns {object} The standard unit object.
+   */
+  get standardUnit () {
+    return this.#standardUnit.abbr
   }
 
   /**
@@ -92,9 +129,9 @@ export class Measurement {
   }
 
   /**
-   * Validates and sets the measurement unit.
+   * Validates and sets the measurement unit object, with properties 'abbr' and 'ratio'.
    *
-   * @param {string} unit - The measurement unit
+   * @param {string} unit - The measurement unit abbreviation as a string
    */
   #setUnit (unit) {
     this.#validator.validateUnit(unit, this.#units)
@@ -143,7 +180,7 @@ export class Measurement {
   }
 
   /**
-   * Converts the measurement to the given unit and returns a new measurement.
+   * Converts the measurement to the given unit and returns the new measurement.
    *
    * @param {string} unit - The unit to convert to
    * @returns {Measurement} The new measurement
@@ -157,6 +194,22 @@ export class Measurement {
   }
 
   /**
+   * Converts the measurement to its standard unit and returns the new measurement.
+   *
+   * @returns {Measurement} The new measurement
+   */
+  convertToStandardUnit () {
+    let unit
+    this.#units.forEach(x => {
+      if (x.ratio === 1) {
+        unit = x.abbr
+      }
+    })
+
+    return this.convertTo(unit)
+  }
+
+  /**
    * Calculates quantity given the ratio of a unit.
    *
    * @param {number} ratio - The ratio to use in the calculation
@@ -164,6 +217,48 @@ export class Measurement {
    */
   #calculateQuantity (ratio) {
     return this.#standardUnitQuantity / ratio
+  }
+
+  /**
+   * Compares this to another measurement of the same type to see if they are equal in quantity after being converted to the same unit.
+   *
+   * @param {Measurement} measurement The measurement to compare with
+   * @returns {boolean} True or false
+   */
+  isEqualTo (measurement) {
+    this.#validator.validateMeasurement(measurement, this)
+
+    const conversion = measurement.convertTo(this.#unit.abbr)
+
+    return this.quantity === conversion.quantity
+  }
+
+  /**
+   * Compares this to another measurement of the same type to see if this is less in quantity after being converted to the same unit.
+   *
+   * @param {Measurement} measurement The measurement to compare with
+   * @returns {boolean} True or false
+   */
+  isLessThan (measurement) {
+    this.#validator.validateMeasurement(measurement, this)
+
+    const conversion = measurement.convertTo(this.#unit.abbr)
+
+    return this.quantity < conversion.quantity
+  }
+
+  /**
+   * Compares this to another measurement of the same type to see if this is greater in quantity after being converted to the same unit.
+   *
+   * @param {Measurement} measurement The measurement to compare with
+   * @returns {boolean} True or false
+   */
+  isGreaterThan (measurement) {
+    this.#validator.validateMeasurement(measurement, this)
+
+    const conversion = measurement.convertTo(this.#unit.abbr)
+
+    return this.quantity > conversion.quantity
   }
 
   /**
