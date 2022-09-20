@@ -181,11 +181,19 @@ export class Measurement {
    * @returns {number} The factor
    */
   #getFloatFactor (float) {
-    const floatAsString = float.toString()
+    const noOfDecimals = this.#getNumberOfDecimals(float)
+    return 10 ** noOfDecimals
+  }
 
-    const noOfDecimalsInFloat = floatAsString.slice(floatAsString.indexOf('.')).length - 1
-
-    return 10 ** noOfDecimalsInFloat
+  /**
+   * Returns the number of decimals in the provided number.
+   *
+   * @param {number} number - The number.
+   * @returns {number} The number of decimals in the number.
+   */
+  #getNumberOfDecimals (number) {
+    const numberAsString = number.toString()
+    return numberAsString.slice(numberAsString.indexOf('.')).length - 1
   }
 
   /**
@@ -232,39 +240,6 @@ export class Measurement {
     const ratioFactor = this.#getFloatFactor(ratio)
 
     return ((this.#standardUnitQuantity * quantityFactor) / (ratio * ratioFactor)) / (quantityFactor / ratioFactor)
-  }
-
-  /**
-   * Compares this to another measurement of the same type to see if they are equal in quantity after being converted to the same unit.
-   *
-   * @param {Measurement} measurement The measurement to compare with
-   * @returns {boolean} True or false
-   */
-  isEqualTo (measurement) {
-    this.#validator.validateMeasurement(measurement, this.constructor)
-    return this.#standardUnitQuantity === measurement.#standardUnitQuantity
-  }
-
-  /**
-   * Compares this to another measurement of the same type to see if this is less in quantity after being converted to the same unit.
-   *
-   * @param {Measurement} measurement The measurement to compare with
-   * @returns {boolean} True or false
-   */
-  isLessThan (measurement) {
-    this.#validator.validateMeasurement(measurement, this.constructor)
-    return this.#standardUnitQuantity < measurement.#standardUnitQuantity
-  }
-
-  /**
-   * Compares this to another measurement of the same type to see if this is greater in quantity after being converted to the same unit.
-   *
-   * @param {Measurement} measurement The measurement to compare with
-   * @returns {boolean} True or false
-   */
-  isGreaterThan (measurement) {
-    this.#validator.validateMeasurement(measurement, this.constructor)
-    return this.#standardUnitQuantity > measurement.#standardUnitQuantity
   }
 
   /**
