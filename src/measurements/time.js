@@ -14,14 +14,4 @@ export class Time extends SingleMeasurement {
   constructor (quantity, unit) {
     super(quantity, unit, Units)
   }
-
-  /**
-   * Returns a string representing the speed measurement.
-   *
-   * @override
-   * @returns {string} The string representation.
-   */
-  toString () {
-    return `${super.quantity}${super.unit} (${super.standardUnitQuantity}s)`
-  }
 }

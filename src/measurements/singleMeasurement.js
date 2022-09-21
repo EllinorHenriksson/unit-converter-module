@@ -1,9 +1,27 @@
 import { Measurement } from './measurement.js'
 
 /**
- * Represents a single measurement
+ * Represents a single measurement.
+ *
+ * @abstract
  */
 export class SingleMeasurement extends Measurement {
+  /**
+   * Instantiates a SingleMeasurement object.
+   *
+   * @param {number} quantity - The quantity
+   * @param {string} unit - The unit
+   * @param {units} units - The available units
+   */
+  constructor (quantity, unit, units) {
+    super(quantity, unit, units)
+
+    // Make the class abstract
+    if (this.constructor === SingleMeasurement) {
+      throw new Error('Class "SingleMeasurement" can not be instantiated.')
+    }
+  }
+
   /**
    * Merges this with another single measurement of the same type into a new single measurement in the standard unit.
    *

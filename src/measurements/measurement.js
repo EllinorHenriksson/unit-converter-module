@@ -58,7 +58,7 @@ export class Measurement {
   constructor (quantity, unit, units) {
     // Make the class abstract
     if (this.constructor === Measurement) {
-      throw new Error('Class "Measurement" cannot be instantiated.')
+      throw new Error('Class "Measurement" can not be instantiated.')
     }
 
     this.#validator = new Validator()
@@ -243,11 +243,11 @@ export class Measurement {
   }
 
   /**
-   * Abstract method.
+   * Returns a string representing the measurement.
    *
-   * @abstract
+   * @returns {string} The string representation.
    */
   toString () {
-    throw new Error('Method "toString()" must be implemented.')
+    return `${this.quantity}${this.unit} (${this.standardUnitQuantity}${this.standardUnit})`
   }
 }

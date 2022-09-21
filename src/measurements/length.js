@@ -14,14 +14,4 @@ export class Length extends SingleMeasurement {
   constructor (quantity, unit) {
     super(quantity, unit, Units)
   }
-
-  /**
-   * Returns a string representing the length measurement.
-   *
-   * @override
-   * @returns {string} The string representation.
-   */
-  toString () {
-    return `${super.quantity}${super.unit} (${super.standardUnitQuantity}m)`
-  }
 }
