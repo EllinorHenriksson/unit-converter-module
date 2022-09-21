@@ -6,13 +6,24 @@ import { Measurement } from './measurements/measurement.js'
 import { SingleMeasurement } from './measurements/singleMeasurement.js'
 
 /**
+ * @typedef Unit
+ * @type {object}
+ * @property {string} abbr - Abbreviation.
+ * @property {number} ratio .
+ */
+
+/**
+ * @typedef Units
+ * @type {object}
+ * @property {Unit} unitName - (Multiple properties)
+ */
+
+/**
  * Represents a validator.
  */
 export class Validator {
   /**
-   * A collection of the measurement units.
-   *
-   * @type {object[]}
+   * @type {Units[]}
    */
   #units
 
@@ -24,9 +35,9 @@ export class Validator {
   }
 
   /**
-   * Validates the units, wich must be a reference to one of the units objects.
+   * Validates units, wich must be a reference to one of the units objects (e.g. LengthUnits).
    *
-   * @param {object} units - A refrence to a units object (e.g. LengthUnits)
+   * @param {Units} units .
    */
   validateUnits (units) {
     if (!this.#units.includes(units)) {
@@ -37,7 +48,7 @@ export class Validator {
   /**
    * Validates quantity, wich must be a number greater than 0.
    *
-   * @param {number} quantity - The quantity.
+   * @param {number} quantity .
    */
   validateQuantity (quantity) {
     const errorMessage = 'Quantity must be a number greater than 0.'
@@ -50,38 +61,38 @@ export class Validator {
   }
 
   /**
-   * Validates a unit, wich must correspont to one of the units represented in the units object.
+   * Validates a unit abbreviation, wich must be equal to the abbreviation of one of the units in the units object (e.g. LengthUnits).
    *
-   * @param {string} unit - The unit to validate.
-   * @param {object} units - The units to validate against.
+   * @param {string} unitAbbreviation .
+   * @param {Units} units .
    */
-  validateUnit (unit, units) {
+  validateUnitAbbreviation (unitAbbreviation, units) {
     const unitAbbreviations = Object.values(units).map(x => x.abbr)
 
-    if (!unitAbbreviations.includes(unit)) {
+    if (!unitAbbreviations.includes(unitAbbreviation)) {
       throw new Error('The unit must be any of the following: ' + unitAbbreviations.join(', '))
     }
   }
 
   /**
-   * Validates a measurement, wich must be an instance of a specific class.
+   * Validates a measurement, wich must be an instance of the measurement subtype.
    *
-   * @param {object} measurement - The measurement to validate (e.g. length)
-   * @param {object} specificClass - The specific class
+   * @param {Measurement} measurement .
+   * @param {Measurement} subtype .
    */
-  validateMeasurement (measurement, specificClass) {
-    if (!(measurement instanceof specificClass)) {
-      throw new TypeError(`The measurement must be of the type ${specificClass.name}`)
+  validateMeasurementType (measurement, subtype) {
+    if (!(measurement instanceof subtype)) {
+      throw new TypeError(`The measurement must be of the type ${subtype.name}`)
     }
   }
 
   /**
-   * Validates single measurements, wich must be an array of single measurements of the same type.
+   * Validates single measurements, wich must be an array of single measurements of the same subtype.
    *
-   * @param {Measurement[]} singleMeasurements -The single measurements
+   * @param {SingleMeasurement[]} singleMeasurements .
    */
   validateSingleMeasurements (singleMeasurements) {
-    const errorMessage = 'Measurements must be an array of single measurements of the same type.'
+    const errorMessage = 'Measurements must be an array of single measurements of the same subtype.'
     if (!Array.isArray(singleMeasurements)) {
       throw new TypeError(errorMessage)
     }

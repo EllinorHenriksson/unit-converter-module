@@ -8,10 +8,10 @@ export class Speed extends CombinedMeasurement {
   /**
    * Instantiates a Speed object.
    *
-   * @param {number} quantity - The quantity
-   * @param {string} unit The speed unit
+   * @param {number} quantity .
+   * @param {string} unitAbbreviation .
    */
-  constructor (quantity, unit) {
-    super(quantity, unit, Units)
+  constructor (quantity, unitAbbreviation) {
+    super(quantity, unitAbbreviation, Units)
   }
 }

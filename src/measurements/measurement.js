@@ -1,43 +1,48 @@
 import { Validator } from '../validator.js'
 
 /**
+ * @typedef Unit
+ * @type {object}
+ * @property {string} abbr - Abbreviation.
+ * @property {number} ratio .
+ */
+
+/**
+ * @typedef Units
+ * @type {object}
+ * @property {Unit} unitName - (Multiple properties)
+ */
+
+/**
  * Represents a measurement.
  *
  * @abstract
  */
 export class Measurement {
   /**
-   * The quantity in the given unit.
-   *
    * @type {number}
    */
   #quantity
 
   /**
-   * The given unit, with properties 'abbr' and 'ratio'.
-   *
-   * @type {object}
+   * @type {Unit}
    */
   #unit
 
   /**
-   * The standard unit quantity.
-   *
    * @type {number}
    */
   #standardUnitQuantity
 
   /**
-   * The standard unit, with properties 'abbr' and 'ratio'.
-   *
-   * @type {object}
+   * @type {Unit}
    */
   #standardUnit
 
   /**
    * The available units of the measurement.
    *
-   * @type {object}
+   * @type {Units}
    */
   #units
 
@@ -51,11 +56,11 @@ export class Measurement {
   /**
    * Instantiates a Measurement object.
    *
-   * @param {number} quantity - The quantity
-   * @param {string} unit - The unit
-   * @param {units} units - The available units
+   * @param {number} quantity .
+   * @param {string} unitAbbreviation .
+   * @param {Units} units - The available units of the measurement.
    */
-  constructor (quantity, unit, units) {
+  constructor (quantity, unitAbbreviation, units) {
     // Make the class abstract
     if (this.constructor === Measurement) {
       throw new Error('Class "Measurement" can not be instantiated.')
@@ -66,14 +71,14 @@ export class Measurement {
     this.#setUnits(units)
     this.#setStandardUnit()
     this.#setQuantity(quantity)
-    this.#setUnit(unit)
+    this.#setUnit(unitAbbreviation)
     this.#setStandardUnitQuantity()
   }
 
   /**
    * Gets a copy of the validator.
    *
-   * @returns {Validator} The validator copy.
+   * @returns {Validator} .
    */
   get validator () {
     return new Validator()
@@ -82,7 +87,7 @@ export class Measurement {
   /**
    * Validates and sets the units of the measurement.
    *
-   * @param {object} units - A reference to a units object (e.g. LengthUnits)
+   * @param {Units} units .
    */
   #setUnits (units) {
     this.#validator.validateUnits(units)
@@ -90,7 +95,7 @@ export class Measurement {
   }
 
   /**
-   * Sets the standard measurement unit object, with properties 'abbr' and 'ratio'.
+   * Sets the standard unit.
    */
   #setStandardUnit () {
     for (const key in this.#units) {
@@ -101,18 +106,18 @@ export class Measurement {
   }
 
   /**
-   * Gets the standard unit object, with properties 'abbr' and 'ratio'.
+   * Gets the abbreviation of the standard unit.
    *
-   * @returns {object} The standard unit object.
+   * @returns {string} .
    */
   get standardUnit () {
     return this.#standardUnit.abbr
   }
 
   /**
-   * Validates and sets the quantity property.
+   * Validates and sets the quantity.
    *
-   * @param {number} quantity - The quantity
+   * @param {number} quantity .
    */
   #setQuantity (quantity) {
     this.#validator.validateQuantity(quantity)
@@ -129,38 +134,38 @@ export class Measurement {
   }
 
   /**
-   * Validates and sets the measurement unit object, with properties 'abbr' and 'ratio'.
+   * Validates a unit abbreviation and sets the unit property to the corresponding Unit object.
    *
-   * @param {string} unit - The measurement unit abbreviation as a string
+   * @param {string} unitAbbreviation .
    */
-  #setUnit (unit) {
-    this.#validator.validateUnit(unit, this.#units)
-    this.#unit = this.#retrieveUnit(unit)
+  #setUnit (unitAbbreviation) {
+    this.#validator.validateUnitAbbreviation(unitAbbreviation, this.#units)
+    this.#unit = this.#retrieveUnit(unitAbbreviation)
   }
 
   /**
-   * Gets the unit object, with properties 'abbr' and 'ratio'.
+   * Gets the abbreviation of the unit.
    *
-   * @returns {object} The unit object.
+   * @returns {string} .
    */
   get unit () {
     return this.#unit.abbr
   }
 
   /**
-   * Retrieves the corresponding measurement unit object.
+   * Retrieves the unit that corresponds to the unit abbreviation.
    *
-   * @param {string} unit - The abbreviation of the unit to look for
-   * @returns {object} The unit object, with properties 'abbr' and 'ratio'
+   * @param {string} unitAbbreviation .
+   * @returns {Unit} .
    */
-  #retrieveUnit (unit) {
-    let unitObject
+  #retrieveUnit (unitAbbreviation) {
+    let unit
     for (const key in this.#units) {
-      if (this.#units[key].abbr === unit) {
-        unitObject = this.#units[key]
+      if (this.#units[key].abbr === unitAbbreviation) {
+        unit = this.#units[key]
       }
     }
-    return unitObject
+    return unit
   }
 
   /**
@@ -178,7 +183,7 @@ export class Measurement {
    * Returns a factor to use in calculations with a float to avoid miscalculations.
    *
    * @param {number} float - The float wich the factor is for
-   * @returns {number} The factor
+   * @returns {number} .
    */
   #getFloatFactor (float) {
     const noOfDecimals = this.#getNumberOfDecimals(float)
@@ -186,20 +191,20 @@ export class Measurement {
   }
 
   /**
-   * Returns the number of decimals in the provided number.
+   * Returns the number of decimals in the provided value.
    *
-   * @param {number} number - The number.
-   * @returns {number} The number of decimals in the number.
+   * @param {number} value .
+   * @returns {number} .
    */
-  #getNumberOfDecimals (number) {
-    const numberAsString = number.toString()
-    return numberAsString.slice(numberAsString.indexOf('.')).length - 1
+  #getNumberOfDecimals (value) {
+    const valueAsString = value.toString()
+    return valueAsString.slice(valueAsString.indexOf('.')).length - 1
   }
 
   /**
    * Gets the standard unit quantity.
    *
-   * @returns {number} The standard unit quantity.
+   * @returns {number} .
    */
   get standardUnitQuantity () {
     return this.#standardUnitQuantity
@@ -208,31 +213,31 @@ export class Measurement {
   /**
    * Converts the measurement to the given unit and returns the new measurement.
    *
-   * @param {string} unit - The unit to convert to
-   * @returns {Measurement} The new measurement
+   * @param {string} unitAbbreviation - The abbreviation of the unit to convert to
+   * @returns {Measurement} .
    */
-  convertTo (unit) {
-    this.#validator.validateUnit(unit, this.#units)
-    const unitObject = this.#retrieveUnit(unit)
-    const quantity = this.#calculateQuantity(unitObject.ratio)
+  convertTo (unitAbbreviation) {
+    this.#validator.validateUnitAbbreviation(unitAbbreviation, this.#units)
+    const unit = this.#retrieveUnit(unitAbbreviation)
+    const quantity = this.#calculateQuantity(unit.ratio)
 
-    return new this.constructor(quantity, unit)
+    return new this.constructor(quantity, unitAbbreviation)
   }
 
   /**
    * Converts the measurement to its standard unit and returns the new measurement.
    *
-   * @returns {Measurement} The new measurement
+   * @returns {Measurement} .
    */
   convertToStandard () {
     return this.convertTo(this.#standardUnit.abbr)
   }
 
   /**
-   * Calculates quantity given the ratio of a unit.
+   * Calculates quantity given the ratio of a unit and returns the result.
    *
-   * @param {number} ratio - The ratio to use in the calculation
-   * @returns {number} The resulting quantity
+   * @param {number} ratio .
+   * @returns {number} .
    */
   #calculateQuantity (ratio) {
     // Calculates the quantity with factors to create integers out of floating point numbers, wich otherwise may cause miscalculations

@@ -8,10 +8,10 @@ export class Time extends SingleMeasurement {
   /**
    * Instantiates a Time object.
    *
-   * @param {number} quantity - The quantity
-   * @param {string} unit The time unit
+   * @param {number} quantity .
+   * @param {string} unitAbbreviation .
    */
-  constructor (quantity, unit) {
-    super(quantity, unit, Units)
+  constructor (quantity, unitAbbreviation) {
+    super(quantity, unitAbbreviation, Units)
   }
 }

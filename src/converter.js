@@ -1,6 +1,7 @@
 import { Validator } from './validator.js'
 
 // Import measurements
+import { Measurement } from './measurements/measurement.js'
 import { SingleMeasurement } from './measurements/singleMeasurement.js'
 import { Length } from './measurements/length.js'
 import { Time } from './measurements/time.js'
@@ -12,18 +13,46 @@ import { TimeUnits } from './units/timeUnits.js'
 import { SpeedUnits } from './units/speedUnits.js'
 
 /**
+ * @typedef Unit
+ * @type {object}
+ * @property {string} abbr - Abbreviation.
+ * @property {number} ratio .
+ */
+
+/**
+ * @typedef Units
+ * @type {object}
+ * @property {Unit} unitName - (Multiple properties)
+ */
+
+/**
  * Represents a converter.
  */
 export class Converter {
+  /**
+   * @type {Validator}
+   */
   #validator
 
+  /**
+   * @type {Units}
+   */
   #lengthUnits
 
+  /**
+   * @type {Units}
+   */
   #timeUnits
 
+  /**
+   * @type {Units}
+   */
   #speedUnits
 
-  #measurementTypes = [Length, Time, Speed]
+  /**
+   * @type {Measurement[]}
+   */
+  #measurementTypes
 
   /**
    * Instantiates a Converter object.
@@ -34,12 +63,14 @@ export class Converter {
     this.#lengthUnits = LengthUnits
     this.#timeUnits = TimeUnits
     this.#speedUnits = SpeedUnits
+
+    this.#measurementTypes = [Length, Time, Speed]
   }
 
   /**
    * Returns an array with the names of the available measurement types.
    *
-   * @returns {string[]} The names.
+   * @returns {string[]} .
    */
   get measurementTypes () {
     return this.#measurementTypes.map(x => x.name)
@@ -48,7 +79,7 @@ export class Converter {
   /**
    * Gets the available length units as an array of abbreviations.
    *
-   * @returns {string[]} The abbreviations
+   * @returns {string[]} .
    */
   get lengthUnits () {
     return Object.values(this.#lengthUnits).map(x => x.abbr)
@@ -57,7 +88,7 @@ export class Converter {
   /**
    * Gets the available time units as an array of abbreviations.
    *
-   * @returns {string[]} The abbreviations
+   * @returns {string[]} .
    */
   get timeUnits () {
     return Object.values(this.#timeUnits).map(x => x.abbr)
@@ -66,7 +97,7 @@ export class Converter {
   /**
    * Gets the available speed units as an array of abbreviations.
    *
-   * @returns {string[]} The abbreviations
+   * @returns {string[]} .
    */
   get speedUnits () {
     return Object.values(this.#speedUnits).map(x => x.abbr)
@@ -75,56 +106,56 @@ export class Converter {
   /**
    * Creates and returns a Length object.
    *
-   * @param {number} quantity - The quantity
-   * @param {string} unit - The abbreviation of the length unit
-   * @returns {Length} The Length object
+   * @param {number} quantity .
+   * @param {string} unitAbbreviation .
+   * @returns {Length} .
    */
-  length (quantity, unit) {
-    return new Length(quantity, unit)
+  length (quantity, unitAbbreviation) {
+    return new Length(quantity, unitAbbreviation)
   }
 
   /**
    * Creates and returns a Time object.
    *
-   * @param {number} quantity - The quantity
-   * @param {string} unit - The abbreviation of the time unit
-   * @returns {Time} The Time object
+   * @param {number} quantity .
+   * @param {string} unitAbbreviation .
+   * @returns {Time} .
    */
-  time (quantity, unit) {
-    return new Time(quantity, unit)
+  time (quantity, unitAbbreviation) {
+    return new Time(quantity, unitAbbreviation)
   }
 
   /**
    * Creates and returns a Speed object.
    *
-   * @param {number} quantity - The quantity
-   * @param {string} unit - The abbreviation of the speed unit
-   * @returns {Speed} The Speed object
+   * @param {number} quantity .
+   * @param {string} unitAbbreviation .
+   * @returns {Speed} .
    */
-  speed (quantity, unit) {
-    return new Speed(quantity, unit)
+  speed (quantity, unitAbbreviation) {
+    return new Speed(quantity, unitAbbreviation)
   }
 
   /**
-   * Instantiates a speed object from a length object and a time object.
+   * Instantiates a speed object from a length object and a time object and returns it.
    *
-   * @param {Length} length - A length object
-   * @param {Time} time - A Time object
-   * @returns {Speed} The instantiated speed object.
+   * @param {Length} length .
+   * @param {Time} time .
+   * @returns {Speed} .
    */
   speedFromLengthAndTime (length, time) {
-    this.#validator.validateMeasurement(length, Length)
-    this.#validator.validateMeasurement(time, Time)
+    this.#validator.validateMeasurementType(length, Length)
+    this.#validator.validateMeasurementType(time, Time)
 
     const quantity = length.standardUnitQuantity / time.standardUnitQuantity
     return new Speed(quantity, 'm/s')
   }
 
   /**
-   * Merges many single measurements of the same type into one single measurement in the standard unit.
+   * Merges many single measurements of the same type into one single measurement in the standard unit and returns it.
    *
-   * @param {SingleMeasurement[]} measurements - An array of SingleMeasurement sub types
-   * @returns {SingleMeasurement} The resulting single measurement
+   * @param {SingleMeasurement[]} measurements .
+   * @returns {SingleMeasurement} .
    */
   mergeAll (measurements) {
     this.#validator.validateSingleMeasurements(measurements)

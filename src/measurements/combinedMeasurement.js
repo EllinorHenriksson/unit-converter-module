@@ -1,6 +1,19 @@
 import { Measurement } from './measurement.js'
 
 /**
+ * @typedef Unit
+ * @type {object}
+ * @property {string} abbr - Abbreviation.
+ * @property {number} ratio .
+ */
+
+/**
+ * @typedef Units
+ * @type {object}
+ * @property {Unit} unitName - (Multiple properties)
+ */
+
+/**
  * Represents a combined measurement.
  *
  * @abstract
@@ -9,9 +22,9 @@ export class CombinedMeasurement extends Measurement {
   /**
    * Instantiates a CombinedMeasurement object.
    *
-   * @param {number} quantity - The quantity
-   * @param {string} unit - The unit
-   * @param {units} units - The available units
+   * @param {number} quantity .
+   * @param {string} unit .
+   * @param {Units} units - The available units of the measurement
    */
   constructor (quantity, unit, units) {
     super(quantity, unit, units)

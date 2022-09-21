@@ -1,6 +1,19 @@
 import { Measurement } from './measurement.js'
 
 /**
+ * @typedef Unit
+ * @type {object}
+ * @property {string} abbr - Abbreviation.
+ * @property {number} ratio .
+ */
+
+/**
+ * @typedef Units
+ * @type {object}
+ * @property {Unit} unitName - (Multiple properties)
+ */
+
+/**
  * Represents a single measurement.
  *
  * @abstract
@@ -9,12 +22,12 @@ export class SingleMeasurement extends Measurement {
   /**
    * Instantiates a SingleMeasurement object.
    *
-   * @param {number} quantity - The quantity
-   * @param {string} unit - The unit
-   * @param {units} units - The available units
+   * @param {number} quantity .
+   * @param {string} unitAbbreviation .
+   * @param {Units} units - The available units of the measurement
    */
-  constructor (quantity, unit, units) {
-    super(quantity, unit, units)
+  constructor (quantity, unitAbbreviation, units) {
+    super(quantity, unitAbbreviation, units)
 
     // Make the class abstract
     if (this.constructor === SingleMeasurement) {
@@ -29,7 +42,7 @@ export class SingleMeasurement extends Measurement {
    * @returns {SingleMeasurement} A new single measurement.
    */
   mergeWith (measurement) {
-    this.validator.validateMeasurement(measurement, this.constructor)
+    this.validator.validateMeasurementType(measurement, this.constructor)
 
     const quantity = this.standardUnitQuantity + measurement.standardUnitQuantity
 
@@ -40,10 +53,10 @@ export class SingleMeasurement extends Measurement {
    * Compares this to another measurement of the same type to see if they are equal in quantity after being converted to the same unit.
    *
    * @param {Measurement} measurement The measurement to compare with
-   * @returns {boolean} True or false
+   * @returns {boolean} .
    */
   isEqualTo (measurement) {
-    this.validator.validateMeasurement(measurement, this.constructor)
+    this.validator.validateMeasurementType(measurement, this.constructor)
     return this.standardUnitQuantity === measurement.standardUnitQuantity
   }
 
@@ -51,10 +64,10 @@ export class SingleMeasurement extends Measurement {
    * Compares this to another measurement of the same type to see if this is less in quantity after being converted to the same unit.
    *
    * @param {Measurement} measurement The measurement to compare with
-   * @returns {boolean} True or false
+   * @returns {boolean} .
    */
   isLessThan (measurement) {
-    this.validator.validateMeasurement(measurement, this.constructor)
+    this.validator.validateMeasurementType(measurement, this.constructor)
     return this.standardUnitQuantity < measurement.standardUnitQuantity
   }
 
@@ -62,10 +75,10 @@ export class SingleMeasurement extends Measurement {
    * Compares this to another measurement of the same type to see if this is greater in quantity after being converted to the same unit.
    *
    * @param {Measurement} measurement The measurement to compare with
-   * @returns {boolean} True or false
+   * @returns {boolean} .
    */
   isGreaterThan (measurement) {
-    this.validator.validateMeasurement(measurement, this.constructor)
+    this.validator.validateMeasurementType(measurement, this.constructor)
     return this.standardUnitQuantity > measurement.standardUnitQuantity
   }
 }

@@ -8,10 +8,10 @@ export class Length extends SingleMeasurement {
   /**
    * Instantiates a Length object.
    *
-   * @param {number} quantity - The quantity
-   * @param {string} unit The length unit
+   * @param {number} quantity .
+   * @param {string} unitAbbreviation .
    */
-  constructor (quantity, unit) {
-    super(quantity, unit, Units)
+  constructor (quantity, unitAbbreviation) {
+    super(quantity, unitAbbreviation, Units)
   }
 }
