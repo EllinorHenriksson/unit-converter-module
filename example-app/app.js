@@ -31,10 +31,10 @@ const length1 = converter.length(1, 'm')
 const length2 = converter.length(3, 'dm')
 const length3 = converter.length(30, 'cm')
 
-const totalLengthFromTwo = length1.mergeWith(length2)
+const totalLengthFromTwo = length1.mergeWithInto(length2, 'mm')
 console.log(`Total length from ${length1.toString()} and ${length2.toString()}: ${totalLengthFromTwo.toString()}`)
 
-const totalLengthFromAll = converter.mergeAll([length1, length2, length3])
+const totalLengthFromAll = converter.mergeAllInto([length1, length2, length3], 'mm')
 console.log(`Total length from ${length1.toString()}, ${length2.toString()} and ${length3.toString()}: ${totalLengthFromAll.toString()}`)
 
 console.log('Length 2:', length2.toString(), 'Length 3:', length3.toString(), 'Is equal?', length2.isEqualTo(length3))

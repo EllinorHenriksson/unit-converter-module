@@ -36,17 +36,21 @@ export class SingleMeasurement extends Measurement {
   }
 
   /**
-   * Merges this with another single measurement of the same type into a new single measurement in the standard unit.
+   * Merges this with another single measurement of the same type into a new single measurement in the given unit and returns it.
    *
-   * @param {SingleMeasurement} measurement - The other single measurement to merge with.
-   * @returns {SingleMeasurement} A new single measurement.
+   * @param {SingleMeasurement} measurement .
+   * @param {string} unitAbbreviation .
+   * @returns {SingleMeasurement} .
    */
-  mergeWith (measurement) {
+  mergeWithInto (measurement, unitAbbreviation) {
     this.validator.validateMeasurementType(measurement, this.constructor)
 
-    const quantity = this.standardUnitQuantity + measurement.standardUnitQuantity
+    const conversion1 = this.convertTo(unitAbbreviation)
+    const conversion2 = measurement.convertTo(unitAbbreviation)
 
-    return new this.constructor(quantity, this.standardUnit)
+    const totalQuantity = conversion1.quantity + conversion2.quantity
+
+    return new this.constructor(totalQuantity, conversion1.unit)
   }
 
   /**

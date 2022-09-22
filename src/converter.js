@@ -208,18 +208,19 @@ export class Converter {
   }
 
   /**
-   * Merges many single measurements of the same type into one single measurement in the standard unit and returns it.
+   * Merges many single measurements of the same type into one single measurement in the given unit and returns it.
    *
    * @param {SingleMeasurement[]} measurements .
+   * @param {string} unitAbbreviation .
    * @returns {SingleMeasurement} .
    */
-  mergeAll (measurements) {
+  mergeAllInto (measurements, unitAbbreviation) {
     this.#validator.validateSingleMeasurements(measurements)
 
     let merge = measurements[0]
 
     for (let i = 0; i < measurements.length - 1; i++) {
-      merge = merge.mergeWith(measurements[i + 1])
+      merge = merge.mergeWithInto(measurements[i + 1], unitAbbreviation)
     }
 
     return merge
