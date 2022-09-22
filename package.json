@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node example-app/app.js",
     "lint": "npx eslint ./src || exit 0",
-    "lint:fix": "npx eslint ./src --fix || exit 0"  },
+    "lint:fix": "npx eslint ./src --fix || exit 0",
+    "test": "npx --node-options=--experimental-vm-modules jest || exit 0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EllinorHenriksson/converter.git"
@@ -20,6 +22,7 @@
   },
   "homepage": "https://github.com/EllinorHenriksson/converter#readme",
   "devDependencies": {
-    "@lnu/eslint-config": "^1.1.6"
+    "@lnu/eslint-config": "^1.1.6",
+    "jest": "^29.0.3"
   }
 }

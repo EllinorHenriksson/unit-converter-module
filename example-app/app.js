@@ -3,18 +3,20 @@ import { converter } from '../src/index.js'
 // --- General ---
 //
 //
-console.log('--- General ---')
+console.log('\n--- General ---\n')
 
 console.log('Measurement types:', converter.measurementTypes)
 
 console.log('Length units:', converter.lengthUnits)
 console.log('Time units:', converter.timeUnits)
+console.log('Weight units:', converter.weightUnits)
+console.log('Volume units:', converter.volumeUnits)
 console.log('Speed units:', converter.speedUnits)
 
-// --- Length ---
+// --- Single Measurement (Length) ---
 //
 //
-console.log('--- Length ---')
+console.log('\n--- Single Measurement (Length) ---\n')
 
 const myLengthInM = converter.length(1, 'm')
 console.log('My length in meters:', myLengthInM.toString())
@@ -44,43 +46,10 @@ console.log('Length 2:', length2.toString(), 'Length 3:', length3.toString(), 'I
 console.log('Length 1:', length1.toString(), 'Length 2:', length2.toString(), 'Is greater?', length1.isGreaterThan(length2))
 console.log('Length 2:', length2.toString(), 'Length 3:', length3.toString(), 'Is greater?', length2.isGreaterThan(length3))
 
-// --- Time ---
+// --- Combined Measurement (Speed) ---
 //
 //
-console.log('--- Time ---')
-
-const myTimeInS = converter.time(60, 's')
-console.log('My time in seconds:', myTimeInS.toString())
-
-const myTimeInMin = myTimeInS.convertTo('min')
-console.log(`My time converted to minutes: ${myTimeInMin.quantity}${myTimeInMin.unit} (${myTimeInMin.standardUnitQuantity}${myTimeInMin.standardUnit})`)
-
-const myStandardTime = myTimeInMin.convertToStandard()
-console.log('My time converted to the standard unit:', myStandardTime.toString())
-
-const time1 = converter.time(1, 'h')
-const time2 = converter.time(3, 'min')
-const time3 = converter.time(180, 's')
-
-const totalTimeFromTwo = time1.mergeWith(time2)
-console.log(`Total time from ${time1.toString()} and ${time2.toString()}: ${totalTimeFromTwo.toString()}`)
-
-const totalTimeFromAll = converter.mergeAll([time1, time2, time3])
-console.log(`Total time from ${time1.toString()}, ${time2.toString()} and ${time3.toString()}: ${totalTimeFromAll.toString()}`)
-
-console.log('Time 2:', time2.toString(), 'Time 3:', time3.toString(), 'Is equal?', time2.isEqualTo(time3))
-console.log('Time 1:', time1.toString(), 'Time 3:', time3.toString(), 'Is equal?', time1.isEqualTo(time3))
-
-console.log('Time 2:', time2.toString(), 'Time 1:', time1.toString(), 'Is less?', time2.isLessThan(time1))
-console.log('Time 2:', time2.toString(), 'Time 3:', time3.toString(), 'Is less?', time2.isLessThan(time3))
-
-console.log('Time 1:', time1.toString(), 'Time 2:', time2.toString(), 'Is greater?', time1.isGreaterThan(time2))
-console.log('Time 2:', time2.toString(), 'Time 3:', time3.toString(), 'Is greater?', time2.isGreaterThan(time3))
-
-// --- Speed ---
-//
-//
-console.log('--- Speed ---')
+console.log('\n--- Combined Measurement (Speed) ---\n')
 
 const mySpeedInMPerS = converter.speed(50, 'm/s')
 console.log('My speed in m/s:', mySpeedInMPerS.toString())

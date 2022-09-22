@@ -6,11 +6,15 @@ import { SingleMeasurement } from './measurements/singleMeasurement.js'
 import { Length } from './measurements/length.js'
 import { Time } from './measurements/time.js'
 import { Speed } from './measurements/speed.js'
+import { Weight } from './measurements/weight.js'
+import { Volume } from './measurements/volume.js'
 
 // Import measurement units
 import { LengthUnits } from './units/lengthUnits.js'
 import { TimeUnits } from './units/timeUnits.js'
 import { SpeedUnits } from './units/speedUnits.js'
+import { WeightUnits } from './units/weightUnits.js'
+import { VolumeUnits } from './units/volumeUnits.js'
 
 /**
  * @typedef Unit
@@ -47,6 +51,16 @@ export class Converter {
   /**
    * @type {Units}
    */
+  #weightUnits
+
+  /**
+   * @type {Units}
+   */
+  #volumeUnits
+
+  /**
+   * @type {Units}
+   */
   #speedUnits
 
   /**
@@ -62,9 +76,11 @@ export class Converter {
 
     this.#lengthUnits = LengthUnits
     this.#timeUnits = TimeUnits
+    this.#weightUnits = WeightUnits
+    this.#volumeUnits = VolumeUnits
     this.#speedUnits = SpeedUnits
 
-    this.#measurementTypes = [Length, Time, Speed]
+    this.#measurementTypes = [Length, Time, Weight, Volume, Speed]
   }
 
   /**
@@ -73,7 +89,7 @@ export class Converter {
    * @returns {string[]} .
    */
   get measurementTypes () {
-    return this.#measurementTypes.map(x => x.name)
+    return this.#measurementTypes.map(x => x.name.toLowerCase())
   }
 
   /**
@@ -92,6 +108,24 @@ export class Converter {
    */
   get timeUnits () {
     return Object.values(this.#timeUnits).map(x => x.abbr)
+  }
+
+  /**
+   * Gets the available weight units as an array of abbreviations.
+   *
+   * @returns {string[]} .
+   */
+  get weightUnits () {
+    return Object.values(this.#weightUnits).map(x => x.abbr)
+  }
+
+  /**
+   * Gets the available volume units as an array of abbreviations.
+   *
+   * @returns {string[]} .
+   */
+  get volumeUnits () {
+    return Object.values(this.#volumeUnits).map(x => x.abbr)
   }
 
   /**
@@ -123,6 +157,28 @@ export class Converter {
    */
   time (quantity, unitAbbreviation) {
     return new Time(quantity, unitAbbreviation)
+  }
+
+  /**
+   * Creates and returns a Weight object.
+   *
+   * @param {number} quantity .
+   * @param {string} unitAbbreviation .
+   * @returns {Weight} .
+   */
+  weight (quantity, unitAbbreviation) {
+    return new Weight(quantity, unitAbbreviation)
+  }
+
+  /**
+   * Creates and returns a Volume object.
+   *
+   * @param {number} quantity .
+   * @param {string} unitAbbreviation .
+   * @returns {Weight} .
+   */
+  volume (quantity, unitAbbreviation) {
+    return new Volume(quantity, unitAbbreviation)
   }
 
   /**

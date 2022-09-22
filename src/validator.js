@@ -1,6 +1,8 @@
 import { LengthUnits } from './units/lengthUnits.js'
 import { TimeUnits } from './units/timeUnits.js'
 import { SpeedUnits } from './units/speedUnits.js'
+import { WeightUnits } from './units/weightUnits.js'
+import { VolumeUnits } from './units/volumeUnits.js'
 
 import { Measurement } from './measurements/measurement.js'
 import { SingleMeasurement } from './measurements/singleMeasurement.js'
@@ -31,7 +33,7 @@ export class Validator {
    * Instantiates a Validator object.
    */
   constructor () {
-    this.#units = [LengthUnits, TimeUnits, SpeedUnits]
+    this.#units = [LengthUnits, TimeUnits, SpeedUnits, WeightUnits, VolumeUnits]
   }
 
   /**
