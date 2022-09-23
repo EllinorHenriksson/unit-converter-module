@@ -1,6 +1,9 @@
 import { jest } from '@jest/globals'
 import { Validator } from '../src/validator.js'
 import { LengthUnits } from '../src/units/lengthUnits.js'
+import { Length } from '../src/measurements/length'
+import { Time } from '../src/measurements/time.js'
+import { Speed } from '../src/measurements/speed.js'
 
 describe('Validator', () => {
   const validator = new Validator()
@@ -9,13 +12,7 @@ describe('Validator', () => {
   const validateQuantitySpy = jest.spyOn(validator, 'validateQuantity')
   const validateUnitAbbreviationSpy = jest.spyOn(validator, 'validateUnitAbbreviation')
   const validateMeasurementTypeSpy = jest.spyOn(validator, 'validateMeasurementType')
-
-  const LengthMock = jest.fn(() => {})
-  let length
-
-  beforeAll(() => {
-    length = new LengthMock()
-  })
+  const validateSingleMeasurementsSpy = jest.spyOn(validator, 'validateSingleMeasurements')
 
   describe('.validateUnits()', () => {
     test('defines a function', () => {
@@ -123,6 +120,8 @@ describe('Validator', () => {
   })
 
   describe('.validateMeasurementType()', () => {
+    const length = new Length(1, 'm')
+
     test('defines a function', () => {
       expect(typeof validator.validateMeasurementType).toBe('function')
     })
@@ -145,8 +144,59 @@ describe('Validator', () => {
   })
 
   describe('.validateSingleMeasurements()', () => {
+    const length1 = new Length(1, 'm')
+    const length2 = new Length(2, 'm')
+    const time = new Time(1, 's')
+
+    const invalidArgs = [
+      1, -1, 0, 'string', {}
+    ]
+
+    const invalidArrayArgs = [
+      [[]],
+      [[1, 2, 3]],
+      [['a', 'b', 'c']],
+      [[[], [], []]],
+      [[{}, {}, {}]],
+      [[new Speed(1, 'km/h')]]
+    ]
+
     test('defines a function', () => {
       expect(typeof validator.validateSingleMeasurements).toBe('function')
+    })
+
+    test('validates without error', () => {
+      expect(validator.validateSingleMeasurements([length1, length2])).toBeUndefined()
+
+      expect(validateSingleMeasurementsSpy).toHaveBeenCalledWith([length1, length2])
+      validateSingleMeasurementsSpy.mockClear()
+    })
+
+    test.each(invalidArgs)('validates with error for arguments other than array: %j', (fixture) => {
+      expect(() => {
+        validator.validateSingleMeasurements(fixture)
+      }).toThrow(TypeError)
+
+      expect(validateSingleMeasurementsSpy).toHaveBeenCalledWith(fixture)
+      validateSingleMeasurementsSpy.mockClear()
+    })
+
+    test.each(invalidArrayArgs)('validates with error for arrays with invalid elements: %j', (fixture) => {
+      expect(() => {
+        validator.validateSingleMeasurements(fixture)
+      }).toThrow(TypeError)
+
+      expect(validateSingleMeasurementsSpy).toHaveBeenCalledWith(fixture)
+      validateSingleMeasurementsSpy.mockClear()
+    })
+
+    test('validates with error for array with different subtypes', () => {
+      expect(() => {
+        validator.validateSingleMeasurements([length1, time])
+      }).toThrow(TypeError)
+
+      expect(validateSingleMeasurementsSpy).toHaveBeenCalledWith([length1, time])
+      validateSingleMeasurementsSpy.mockClear()
     })
   })
 })

@@ -8,5 +8,13 @@ export default {
   coverageProvider: 'v8',
 
   // The test environment that will be used for testing
-  testEnvironment: 'node'
+  testEnvironment: 'node',
+
+  collectCoverageFrom: [
+    '**/*.{js,jsx}',
+    '!**/node_modules/**',
+    '!**/vendor/**'
+  ],
+
+  collectCoverage: true
 }

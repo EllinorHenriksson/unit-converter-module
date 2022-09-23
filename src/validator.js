@@ -97,7 +97,7 @@ export class Validator {
    */
   validateSingleMeasurements (singleMeasurements) {
     const errorMessage = 'Measurements must be an array of single measurements of the same subtype.'
-    if (!Array.isArray(singleMeasurements)) {
+    if (!Array.isArray(singleMeasurements) || singleMeasurements.length === 0) {
       throw new TypeError(errorMessage)
     }
 
