@@ -69,6 +69,8 @@ export class Validator {
    * @param {Units} units .
    */
   validateUnitAbbreviation (unitAbbreviation, units) {
+    this.validateUnits(units)
+
     const unitAbbreviations = Object.values(units).map(x => x.abbr)
 
     if (!unitAbbreviations.includes(unitAbbreviation)) {
