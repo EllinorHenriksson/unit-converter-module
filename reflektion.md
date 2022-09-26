@@ -1,5 +1,0 @@
-## Kodkvalitetskrav
-### Namngivning
-### Funktioner
-
-## Reflektion
