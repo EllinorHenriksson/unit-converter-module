@@ -55,7 +55,12 @@ Allt som är testat fungerar och jag har förökt att göra testerna så heltäc
 ​
 | Namn och förklaring  | Reflektion                                   |
 | -------------------  | ---------------------------------------------|
-|                      |                                              |
+| __Converter__ Namn på modulens huvudklass | __Use intention-revealing names__ Jag tycker att namnet Converter beskriver syftes med modulen och klassen till hälften. Namnet antyder att modulen ska används till någon form av konvertering. Namnet UnitConverter hade bättre preciserat användningsområdet för konverteraren. Eftersom hela repositoriet är namngett till converter väljer jag dock att behålla namnet i nuläget för att undvika sidoeffekter. __Class names__ Klassen är namngiven efter ett substantiv som antyder vilka egenskaper och beteenden den har. |
+| __unitAbbreviation__ Namn på parameter i flera metoder | __Add meaningful context__ Namnet beskriver en parameter av typen string som representerar en enhetsförkortning, så som 'm' för meter. Delnamnet unit förtydligar vad abbreviation avser, vilket inte framgår helt av kontexten i övrigt. __Make meaningful distinctions__ Namnet är tydligt skilt från det kortare namnet unit, som används för att beskriva parametrar och variabler i form av ett objekt (med egenskaperna abbreviation och ratio) i privata delar av koden. |
+| __isEqualTo__ Namn för metod i den abstrakta superklassen SingleMeasurement | __Method names__ Namnet beskriver en metod som jämför två storheter med varandra och returnerar ett boolskt värde. Prefixet 'is' används i enlighet med boken och the javabean standard då metoden är ett predikat. |
+| __mergeWithInto__ Namn för metod i den abstrakta superklassen SingleMeasurement | __Pick one word per concept__ Delnamnet 'merge' används även i Converter-metoden mergeAllInto(). Båda metoderna utför samma typ av ihopslagning av flera SingleMeasurement-objekt till ett gemensamt som sedan returneras till användaren. Tack vare 'merge' blir det tydligt att båda metoderna delar samma koncept. |
+| __convertTo__ Namn för metod i den abstrakta superklassen Measurement | __Avoid disinformation__ Namnet kan vara missvisande beroende på hur det tolkas. Det metoden gör är att den omvandlar kvantiteten hos ett Measurement-objekt till motsvarande kvantitet i en annan enhet och returnerar ett nytt objekt som representerar konverteringen. Metodnamnet tolkas förhoppningsvis på detta sätt men skulle även kunna tolkas som att metoden påverkar objektets inre tillstånd genom att kalkylera och omvandla attributet quantity samt ändra attributet unit. Jag väljer dock att behålla metodnamnet då jag tycker att det beskriver problemdomänen bäst. |
+
 ​
 ### Funktioner
 ​
