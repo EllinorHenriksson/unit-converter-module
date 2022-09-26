@@ -14,6 +14,10 @@ describe('Validator', () => {
   const validateMeasurementTypeSpy = jest.spyOn(validator, 'validateMeasurementType')
   const validateSingleMeasurementsSpy = jest.spyOn(validator, 'validateSingleMeasurements')
 
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('.validateUnits()', () => {
     test('defines a function', () => {
       expect(typeof validator.validateUnits).toBe('function')
@@ -25,8 +29,6 @@ describe('Validator', () => {
       expect(result).toBeUndefined()
 
       expect(validateUnitsSpy).toHaveBeenCalledWith(LengthUnits)
-
-      validateUnitsSpy.mockClear()
     })
 
     test('validates with error', () => {
@@ -37,8 +39,6 @@ describe('Validator', () => {
       }).toThrow(Error)
 
       expect(validateUnitsSpy).toHaveBeenCalledWith(argument)
-
-      validateUnitsSpy.mockClear()
     })
   })
 
@@ -54,7 +54,6 @@ describe('Validator', () => {
     test.each(validArgs)('validates without error for valid argument %d', (fixture) => {
       expect(validator.validateQuantity(fixture)).toBeUndefined()
       expect(validateQuantitySpy).toHaveBeenCalledWith(fixture)
-      validateQuantitySpy.mockClear()
     })
 
     test.each(invalidArgsOther)('validates with error for invalid argument %j', (fixture) => {
@@ -63,7 +62,6 @@ describe('Validator', () => {
       }).toThrow(TypeError)
 
       expect(validateQuantitySpy).toHaveBeenCalledWith(fixture)
-      validateUnitsSpy.mockClear()
     })
 
     test.each(invalidNumberArgs)('validates with error for invalid argument %d', (fixture) => {
@@ -72,7 +70,6 @@ describe('Validator', () => {
       }).toThrow(RangeError)
 
       expect(validateQuantitySpy).toHaveBeenCalledWith(fixture)
-      validateUnitsSpy.mockClear()
     })
   })
 
@@ -85,11 +82,9 @@ describe('Validator', () => {
       expect(validator.validateUnitAbbreviation('m', LengthUnits)).toBeUndefined()
 
       expect(validateUnitAbbreviationSpy).toHaveBeenCalledWith('m', LengthUnits)
-      validateUnitAbbreviationSpy.mockClear()
 
       expect(validateUnitsSpy).toHaveBeenCalledWith(LengthUnits)
       expect(validateUnitsSpy).toHaveReturnedWith(undefined)
-      validateUnitsSpy.mockClear()
     })
 
     test('validates with error for invalid second argument {}', () => {
@@ -98,11 +93,9 @@ describe('Validator', () => {
       }).toThrow(Error)
 
       expect(validateUnitAbbreviationSpy).toHaveBeenCalledWith('m', {})
-      validateUnitAbbreviationSpy.mockClear()
 
       expect(validateUnitsSpy).toHaveBeenCalledWith({})
       expect(validateUnitsSpy).toThrow(Error)
-      validateUnitsSpy.mockClear()
     })
 
     test('validates with error for invalid first argument "invalidArg"', () => {
@@ -111,11 +104,9 @@ describe('Validator', () => {
       }).toThrow(Error)
 
       expect(validateUnitAbbreviationSpy).toHaveBeenCalledWith('invalidArg', LengthUnits)
-      validateUnitAbbreviationSpy.mockClear()
 
       expect(validateUnitsSpy).toHaveBeenCalledWith(LengthUnits)
       expect(validateUnitsSpy).toHaveReturnedWith(undefined)
-      validateUnitsSpy.mockClear()
     })
   })
 
@@ -130,7 +121,6 @@ describe('Validator', () => {
       expect(validator.validateMeasurementType(length, length.constructor)).toBeUndefined()
 
       expect(validateMeasurementTypeSpy).toHaveBeenCalledWith(length, length.constructor)
-      validateMeasurementTypeSpy.mockClear()
     })
 
     test('validates with error', () => {
@@ -139,7 +129,6 @@ describe('Validator', () => {
       }).toThrow(TypeError)
 
       expect(validateMeasurementTypeSpy).toHaveBeenCalledWith({}, length.constructor)
-      validateMeasurementTypeSpy.mockClear()
     })
   })
 
@@ -169,7 +158,6 @@ describe('Validator', () => {
       expect(validator.validateSingleMeasurements([length1, length2])).toBeUndefined()
 
       expect(validateSingleMeasurementsSpy).toHaveBeenCalledWith([length1, length2])
-      validateSingleMeasurementsSpy.mockClear()
     })
 
     test.each(invalidArgs)('validates with error for arguments other than array: %j', (fixture) => {
@@ -178,7 +166,6 @@ describe('Validator', () => {
       }).toThrow(TypeError)
 
       expect(validateSingleMeasurementsSpy).toHaveBeenCalledWith(fixture)
-      validateSingleMeasurementsSpy.mockClear()
     })
 
     test.each(invalidArrayArgs)('validates with error for arrays with invalid elements: %j', (fixture) => {
@@ -187,7 +174,6 @@ describe('Validator', () => {
       }).toThrow(TypeError)
 
       expect(validateSingleMeasurementsSpy).toHaveBeenCalledWith(fixture)
-      validateSingleMeasurementsSpy.mockClear()
     })
 
     test('validates with error for array with different subtypes', () => {
@@ -196,7 +182,6 @@ describe('Validator', () => {
       }).toThrow(TypeError)
 
       expect(validateSingleMeasurementsSpy).toHaveBeenCalledWith([length1, time])
-      validateSingleMeasurementsSpy.mockClear()
     })
   })
 })
