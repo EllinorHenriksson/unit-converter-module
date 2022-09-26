@@ -1,20 +1,20 @@
 import { jest } from '@jest/globals'
-import { Length } from '../src/measurements/length.js'
+import { Volume } from '../src/measurements/volume.js'
 import { Validator } from '../src/validator.js'
 
 jest.mock('../src/validator.js')
 
-describe('Length', () => {
-  const length = new Length(100, 'cm')
+describe('Volume', () => {
+  const volume = new Volume(1, 'L')
 
-  const validatorSpy = jest.spyOn(length, 'validator', 'get')
-  const standardUnitSpy = jest.spyOn(length, 'standardUnit', 'get')
-  const quantitySpy = jest.spyOn(length, 'quantity', 'get')
-  const unitSpy = jest.spyOn(length, 'unit', 'get')
-  const standardUnitQuantitySpy = jest.spyOn(length, 'standardUnitQuantity', 'get')
-  const convertToSpy = jest.spyOn(length, 'convertTo')
-  const convertToStandardSpy = jest.spyOn(length, 'convertToStandard')
-  const toStringSpy = jest.spyOn(length, 'toString')
+  const validatorSpy = jest.spyOn(volume, 'validator', 'get')
+  const standardUnitSpy = jest.spyOn(volume, 'standardUnit', 'get')
+  const quantitySpy = jest.spyOn(volume, 'quantity', 'get')
+  const unitSpy = jest.spyOn(volume, 'unit', 'get')
+  const standardUnitQuantitySpy = jest.spyOn(volume, 'standardUnitQuantity', 'get')
+  const convertToSpy = jest.spyOn(volume, 'convertTo')
+  const convertToStandardSpy = jest.spyOn(volume, 'convertToStandard')
+  const toStringSpy = jest.spyOn(volume, 'toString')
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -22,19 +22,19 @@ describe('Length', () => {
 
   describe('.constructor()', () => {
     test('defines a function', () => {
-      expect(typeof Length.constructor).toBe('function')
+      expect(typeof Volume.constructor).toBe('function')
     })
 
     test('calls the constructor on Validator', () => {
-      const result = new Length(1, 'm')
+      const result = new Volume(1, 'L')
       expect(Validator).toHaveBeenCalledTimes(1)
-      expect(result).toBeInstanceOf(Length)
+      expect(result).toBeInstanceOf(Volume)
     })
   })
 
   describe('.validator', () => {
     test('gets validator', () => {
-      const result = length.validator
+      const result = volume.validator
       expect(validatorSpy).toHaveBeenCalledTimes(1)
       expect(result).toBeInstanceOf(Validator)
       expect(Validator).toHaveBeenCalledTimes(1)
@@ -43,135 +43,135 @@ describe('Length', () => {
 
   describe('.standardUnit', () => {
     test('gets standard unit', () => {
-      const result = length.standardUnit
+      const result = volume.standardUnit
       expect(standardUnitSpy).toHaveBeenCalledTimes(1)
-      expect(result).toBe('m')
+      expect(result).toBe('m^3')
     })
   })
 
   describe('.quantity', () => {
     test('gets quantity', () => {
-      const result = length.quantity
+      const result = volume.quantity
       expect(quantitySpy).toHaveBeenCalledTimes(1)
-      expect(result).toBe(100)
+      expect(result).toBe(1)
     })
   })
 
   describe('.unit', () => {
     test('gets unit', () => {
-      const result = length.unit
+      const result = volume.unit
       expect(unitSpy).toHaveBeenCalledTimes(1)
-      expect(result).toBe('cm')
+      expect(result).toBe('L')
     })
   })
 
   describe('.standardUnitQuantity', () => {
     test('gets standard unit quantity', () => {
-      const result = length.standardUnitQuantity
+      const result = volume.standardUnitQuantity
       expect(standardUnitQuantitySpy).toHaveBeenCalledTimes(1)
-      expect(result).toBe(1)
+      expect(result).toBe(0.001)
     })
   })
 
   describe('.convertTo', () => {
-    test('converts measurement to given unit and returns new length object', () => {
-      const result = length.convertTo('mm')
+    test('converts measurement to given unit and returns new volume object', () => {
+      const result = volume.convertTo('m^3')
 
       expect(convertToSpy).toHaveBeenCalledTimes(1)
-      expect(convertToSpy).toHaveBeenCalledWith('mm')
+      expect(convertToSpy).toHaveBeenCalledWith('m^3')
 
-      expect(result).toBeInstanceOf(Length)
-      expect(result.unit).toBe('mm')
-      expect(result.quantity).toBe(1000)
+      expect(result).toBeInstanceOf(Volume)
+      expect(result.unit).toBe('m^3')
+      expect(result.quantity).toBe(0.001)
     })
   })
 
   describe('.convertToStandard', () => {
-    test('converts measurement to standard unit and returns new length object', () => {
-      const result = length.convertToStandard()
+    test('converts measurement to standard unit and returns new volume object', () => {
+      const result = volume.convertToStandard()
 
       expect(convertToStandardSpy).toHaveBeenCalledTimes(1)
 
-      expect(result).toBeInstanceOf(Length)
-      expect(result.unit).toBe('m')
-      expect(result.quantity).toBe(1)
+      expect(result).toBeInstanceOf(Volume)
+      expect(result.unit).toBe('m^3')
+      expect(result.quantity).toBe(0.001)
     })
   })
 
   describe('.toString', () => {
     test('returns a string representation of the measurement', () => {
-      const result = length.toString()
+      const result = volume.toString()
 
       expect(toStringSpy).toHaveBeenCalledTimes(1)
 
-      expect(result).toBe('100cm (1m)')
+      expect(result).toBe('1L (0.001m^3)')
     })
   })
 
   describe('.mergeWithInto', () => {
     test('merges measurement with other measurement, returning a new measurement in the given unit', () => {
-      const result = length.mergeWithInto(new Length(50, 'cm'), 'm')
+      const result = volume.mergeWithInto(new Volume(1, 'L'), 'm^3')
 
-      expect(result).toBeInstanceOf(Length)
-      expect(result.quantity).toBe(1.5)
-      expect(result.unit).toBe('m')
+      expect(result).toBeInstanceOf(Volume)
+      expect(result.quantity).toBe(0.002)
+      expect(result.unit).toBe('m^3')
     })
   })
 
   describe('.isEqualTo', () => {
     const validArgs = [
-      new Length(100, 'cm'),
-      new Length(1, 'm')
+      new Volume(1, 'L'),
+      new Volume(0.001, 'm^3')
     ]
     const invalidArgs = [
-      new Length(10, 'cm'),
-      new Length(200, 'cm')
+      new Volume(0.1, 'L'),
+      new Volume(2, 'L')
     ]
 
     test.each(validArgs)('returns true for equal measurements', fixture => {
-      expect(length.isEqualTo(fixture)).toBe(true)
+      expect(volume.isEqualTo(fixture)).toBe(true)
     })
 
     test.each(invalidArgs)('returns false for unequal measurements', fixture => {
-      expect(length.isEqualTo(fixture)).toBe(false)
+      expect(volume.isEqualTo(fixture)).toBe(false)
     })
   })
 
   describe('.isLessThan', () => {
     const validArgs = [
-      new Length(200, 'cm')
+      new Volume(2, 'L')
     ]
     const invalidArgs = [
-      new Length(10, 'cm'),
-      new Length(100, 'cm'),
-      new Length(1, 'm')
+      new Volume(0.1, 'L'),
+      new Volume(1, 'L'),
+      new Volume(0.001, 'm^3')
     ]
 
     test.each(validArgs)('returns true for a measurement that is lesser than the measurements passed as an argument', fixture => {
-      expect(length.isLessThan(fixture)).toBe(true)
+      expect(volume.isLessThan(fixture)).toBe(true)
     })
 
     test.each(invalidArgs)('returns false for a measurement that is not lesser than the measurements passed as an argument', fixture => {
-      expect(length.isLessThan(fixture)).toBe(false)
+      expect(volume.isLessThan(fixture)).toBe(false)
     })
   })
 
   describe('.isGreaterThan', () => {
     const validArgs = [
-      new Length(10, 'cm')
+      new Volume(0.1, 'L')
     ]
     const invalidArgs = [
-      new Length(200, 'cm'),
-      new Length(100, 'cm'),
-      new Length(1, 'm')
+      new Volume(2, 'L'),
+      new Volume(1, 'L'),
+      new Volume(0.001, 'm^3')
     ]
 
     test.each(validArgs)('returns true for a measurement that is greater than the measurements passed as an argument', fixture => {
-      expect(length.isGreaterThan(fixture)).toBe(true)
+      expect(volume.isGreaterThan(fixture)).toBe(true)
     })
 
     test.each(invalidArgs)('returns false for a measurement that is not greater than the measurements passed as an argument', fixture => {
-      expect(length.isGreaterThan(fixture)).toBe(false)
+      expect(volume.isGreaterThan(fixture)).toBe(false)
     })
   })
 })

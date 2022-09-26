@@ -1,20 +1,20 @@
 import { jest } from '@jest/globals'
-import { Length } from '../src/measurements/length.js'
+import { Time } from '../src/measurements/time.js'
 import { Validator } from '../src/validator.js'
 
 jest.mock('../src/validator.js')
 
-describe('Length', () => {
-  const length = new Length(100, 'cm')
+describe('Time', () => {
+  const time = new Time(1, 'min')
 
-  const validatorSpy = jest.spyOn(length, 'validator', 'get')
-  const standardUnitSpy = jest.spyOn(length, 'standardUnit', 'get')
-  const quantitySpy = jest.spyOn(length, 'quantity', 'get')
-  const unitSpy = jest.spyOn(length, 'unit', 'get')
-  const standardUnitQuantitySpy = jest.spyOn(length, 'standardUnitQuantity', 'get')
-  const convertToSpy = jest.spyOn(length, 'convertTo')
-  const convertToStandardSpy = jest.spyOn(length, 'convertToStandard')
-  const toStringSpy = jest.spyOn(length, 'toString')
+  const validatorSpy = jest.spyOn(time, 'validator', 'get')
+  const standardUnitSpy = jest.spyOn(time, 'standardUnit', 'get')
+  const quantitySpy = jest.spyOn(time, 'quantity', 'get')
+  const unitSpy = jest.spyOn(time, 'unit', 'get')
+  const standardUnitQuantitySpy = jest.spyOn(time, 'standardUnitQuantity', 'get')
+  const convertToSpy = jest.spyOn(time, 'convertTo')
+  const convertToStandardSpy = jest.spyOn(time, 'convertToStandard')
+  const toStringSpy = jest.spyOn(time, 'toString')
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -22,19 +22,19 @@ describe('Length', () => {
 
   describe('.constructor()', () => {
     test('defines a function', () => {
-      expect(typeof Length.constructor).toBe('function')
+      expect(typeof Time.constructor).toBe('function')
     })
 
     test('calls the constructor on Validator', () => {
-      const result = new Length(1, 'm')
+      const result = new Time(1, 'min')
       expect(Validator).toHaveBeenCalledTimes(1)
-      expect(result).toBeInstanceOf(Length)
+      expect(result).toBeInstanceOf(Time)
     })
   })
 
   describe('.validator', () => {
     test('gets validator', () => {
-      const result = length.validator
+      const result = time.validator
       expect(validatorSpy).toHaveBeenCalledTimes(1)
       expect(result).toBeInstanceOf(Validator)
       expect(Validator).toHaveBeenCalledTimes(1)
@@ -43,135 +43,135 @@ describe('Length', () => {
 
   describe('.standardUnit', () => {
     test('gets standard unit', () => {
-      const result = length.standardUnit
+      const result = time.standardUnit
       expect(standardUnitSpy).toHaveBeenCalledTimes(1)
-      expect(result).toBe('m')
+      expect(result).toBe('s')
     })
   })
 
   describe('.quantity', () => {
     test('gets quantity', () => {
-      const result = length.quantity
+      const result = time.quantity
       expect(quantitySpy).toHaveBeenCalledTimes(1)
-      expect(result).toBe(100)
+      expect(result).toBe(1)
     })
   })
 
   describe('.unit', () => {
     test('gets unit', () => {
-      const result = length.unit
+      const result = time.unit
       expect(unitSpy).toHaveBeenCalledTimes(1)
-      expect(result).toBe('cm')
+      expect(result).toBe('min')
     })
   })
 
   describe('.standardUnitQuantity', () => {
     test('gets standard unit quantity', () => {
-      const result = length.standardUnitQuantity
+      const result = time.standardUnitQuantity
       expect(standardUnitQuantitySpy).toHaveBeenCalledTimes(1)
-      expect(result).toBe(1)
+      expect(result).toBe(60)
     })
   })
 
   describe('.convertTo', () => {
-    test('converts measurement to given unit and returns new length object', () => {
-      const result = length.convertTo('mm')
+    test('converts measurement to given unit and returns new time object', () => {
+      const result = time.convertTo('s')
 
       expect(convertToSpy).toHaveBeenCalledTimes(1)
-      expect(convertToSpy).toHaveBeenCalledWith('mm')
+      expect(convertToSpy).toHaveBeenCalledWith('s')
 
-      expect(result).toBeInstanceOf(Length)
-      expect(result.unit).toBe('mm')
-      expect(result.quantity).toBe(1000)
+      expect(result).toBeInstanceOf(Time)
+      expect(result.unit).toBe('s')
+      expect(result.quantity).toBe(60)
     })
   })
 
   describe('.convertToStandard', () => {
-    test('converts measurement to standard unit and returns new length object', () => {
-      const result = length.convertToStandard()
+    test('converts measurement to standard unit and returns new time object', () => {
+      const result = time.convertToStandard()
 
       expect(convertToStandardSpy).toHaveBeenCalledTimes(1)
 
-      expect(result).toBeInstanceOf(Length)
-      expect(result.unit).toBe('m')
-      expect(result.quantity).toBe(1)
+      expect(result).toBeInstanceOf(Time)
+      expect(result.unit).toBe('s')
+      expect(result.quantity).toBe(60)
     })
   })
 
   describe('.toString', () => {
     test('returns a string representation of the measurement', () => {
-      const result = length.toString()
+      const result = time.toString()
 
       expect(toStringSpy).toHaveBeenCalledTimes(1)
 
-      expect(result).toBe('100cm (1m)')
+      expect(result).toBe('1min (60s)')
     })
   })
 
   describe('.mergeWithInto', () => {
     test('merges measurement with other measurement, returning a new measurement in the given unit', () => {
-      const result = length.mergeWithInto(new Length(50, 'cm'), 'm')
+      const result = time.mergeWithInto(new Time(1, 'min'), 's')
 
-      expect(result).toBeInstanceOf(Length)
-      expect(result.quantity).toBe(1.5)
-      expect(result.unit).toBe('m')
+      expect(result).toBeInstanceOf(Time)
+      expect(result.quantity).toBe(120)
+      expect(result.unit).toBe('s')
     })
   })
 
   describe('.isEqualTo', () => {
     const validArgs = [
-      new Length(100, 'cm'),
-      new Length(1, 'm')
+      new Time(1, 'min'),
+      new Time(60, 's')
     ]
     const invalidArgs = [
-      new Length(10, 'cm'),
-      new Length(200, 'cm')
+      new Time(0.1, 'min'),
+      new Time(2, 'min')
     ]
 
     test.each(validArgs)('returns true for equal measurements', fixture => {
-      expect(length.isEqualTo(fixture)).toBe(true)
+      expect(time.isEqualTo(fixture)).toBe(true)
     })
 
     test.each(invalidArgs)('returns false for unequal measurements', fixture => {
-      expect(length.isEqualTo(fixture)).toBe(false)
+      expect(time.isEqualTo(fixture)).toBe(false)
     })
   })
 
   describe('.isLessThan', () => {
     const validArgs = [
-      new Length(200, 'cm')
+      new Time(2, 'min')
     ]
     const invalidArgs = [
-      new Length(10, 'cm'),
-      new Length(100, 'cm'),
-      new Length(1, 'm')
+      new Time(0.1, 'min'),
+      new Time(1, 'min'),
+      new Time(60, 's')
     ]
 
     test.each(validArgs)('returns true for a measurement that is lesser than the measurements passed as an argument', fixture => {
-      expect(length.isLessThan(fixture)).toBe(true)
+      expect(time.isLessThan(fixture)).toBe(true)
     })
 
     test.each(invalidArgs)('returns false for a measurement that is not lesser than the measurements passed as an argument', fixture => {
-      expect(length.isLessThan(fixture)).toBe(false)
+      expect(time.isLessThan(fixture)).toBe(false)
     })
   })
 
   describe('.isGreaterThan', () => {
     const validArgs = [
-      new Length(10, 'cm')
+      new Time(0.1, 'min')
     ]
     const invalidArgs = [
-      new Length(200, 'cm'),
-      new Length(100, 'cm'),
-      new Length(1, 'm')
+      new Time(2, 'min'),
+      new Time(1, 'min'),
+      new Time(60, 's')
     ]
 
     test.each(validArgs)('returns true for a measurement that is greater than the measurements passed as an argument', fixture => {
-      expect(length.isGreaterThan(fixture)).toBe(true)
+      expect(time.isGreaterThan(fixture)).toBe(true)
     })
 
     test.each(invalidArgs)('returns false for a measurement that is not greater than the measurements passed as an argument', fixture => {
-      expect(length.isGreaterThan(fixture)).toBe(false)
+      expect(time.isGreaterThan(fixture)).toBe(false)
     })
   })
 })
