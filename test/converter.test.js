@@ -9,7 +9,7 @@ import { Speed } from '../src/measurements/speed.js'
 import { Weight } from '../src/measurements/weight.js'
 import { Volume } from '../src/measurements/volume.js'
 
-// Units 
+// Units
 import { LengthUnits } from '../src/units/lengthUnits.js'
 import { TimeUnits } from '../src/units/timeUnits.js'
 import { SpeedUnits } from '../src/units/speedUnits.js'
@@ -25,6 +25,22 @@ jest.mock('../src/measurements/speed.js')
 
 describe('Converter', () => {
   const converter = new Converter()
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  describe('.constructor()', () => {
+    test('defines a function', () => {
+      expect(typeof Converter.constructor).toBe('function')
+    })
+
+    test('calls the constructor on Validator', () => {
+      const result = new Converter()
+      expect(Validator).toHaveBeenCalledTimes(1)
+      expect(result).toBeInstanceOf(Converter)
+    })
+  })
 
   describe('.measurementTypes', () => {
     test('gets the measurement types', () => {
@@ -95,6 +111,12 @@ describe('Converter', () => {
   describe('.speedFromLengthAndTime', () => {
     test('instantiates a speed object from a length and a time object and returns it', () => {
       expect(converter.speedFromLengthAndTime(new Length(), new Time())).toBeInstanceOf(Speed)
+    })
+  })
+
+  describe('.mergeAllInto', () => {
+    test('defines a function', () => {
+      expect(typeof converter.mergeAllInto).toBe('function')
     })
   })
 })
