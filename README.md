@@ -91,7 +91,8 @@ console.log(units) // ["m/s", "km/h", "km/min" ...]
 
 <details>
 <summary>length(quantity, unitAbbreviation)</summary>
-Parameters: 
+
+Parameters:   
 - quantity [number]: The quantity of the measurement. 
 - unitAbbreviation [string]: The abbreviation of the measurement unit.
 
@@ -106,7 +107,8 @@ console.log(length.constructor.name) // "Length"
 
 <details>
 <summary>time(quantity, unitAbbreviation)</summary>
-Parameters: 
+
+Parameters:   
 - quantity [number]: The quantity of the measurement. 
 - unitAbbreviation [string]: The abbreviation of the measurement unit.
 
@@ -121,6 +123,7 @@ console.log(time.constructor.name) // "Time"
 
 <details>
 <summary>weight(quantity, unitAbbreviation)</summary>
+
 Parameters: 
 - quantity [number]: The quantity of the measurement. 
 - unitAbbreviation [string]: The abbreviation of the measurement unit.
@@ -136,6 +139,7 @@ console.log(weight.constructor.name) // "Weight"
 
 <details>
 <summary>volume(quantity, unitAbbreviation)</summary>
+
 Parameters: 
 - quantity [number]: The quantity of the measurement. 
 - unitAbbreviation [string]: The abbreviation of the measurement unit.
@@ -151,6 +155,7 @@ console.log(volume.constructor.name) // "Volume"
 
 <details>
 <summary>speed(quantity, unitAbbreviation)</summary>
+
 Parameters: 
 - quantity [number]: The quantity of the measurement. 
 - unitAbbreviation [string]: The abbreviation of the measurement unit.
@@ -166,6 +171,7 @@ console.log(speed.constructor.name) // "Speed"
 
 <details>
 <summary>speedFromLengthAndTime(length, time)</summary>
+
 Parameters:
 - length [Length]: A length object.
 - time [Time]: A time object.
@@ -182,6 +188,7 @@ console.log(speed.toString()) // "1m/s (1m/s)"
 
 <details>
 <summary>mergeAllInto(singleMeasurements, unitAbbreviation)</summary>
+
 Parameters:
 - singleMeasurements [SingleMeasurement[]]: An array of SingleMeasurement objects of the same subtype (i.e. Length, Time, Weight, Volume).
 - unitAbbreviation [string]: The abbreviation of the measurement unit.
@@ -242,6 +249,7 @@ console.log(length.standardUnit) // "m"
 
 <details>
 <summary>convertTo(unitAbbreviation)</summary>
+
 Parameters:
 - unitAbbreviation [string]: The abbreviation of the measurement unit.
 
@@ -283,6 +291,7 @@ console.log(length.toString()) // "5dm (0.5m)"
 ### Length, Time, Weight, Volume (i.e. SingleMeasurement)
 <details>
 <summary>mergeWithInto(singleMeasurement, unitAbbreviation)</summary>
+
 Parameters:
 - singleMeasurement [SingleMeasurement]: A SingleMeasurement object of the same subtype (i.e. Length, Time, Weight, Volume).
 - unitAbbreviation [string]: The abbreviation of the measurement unit.
@@ -299,6 +308,7 @@ console.log(mergeInMm.toString()) // "520mm (0.52m)"
 
 <details>
 <summary>isEqualTo(singleMeasurement)</summary>
+
 Parameters:
 - singleMeasurement [SingleMeasurement]: A SingleMeasurement object of the same subtype (i.e. Length, Time, Weight, Volume).
 
@@ -314,6 +324,7 @@ console.log(length1.isEqualTo(length2)) // true
 
 <details>
 <summary>isLessThan(singleMeasurement)</summary>
+
 Parameters:
 - singleMeasurement [SingleMeasurement]: A SingleMeasurement object of the same subtype (i.e. Length, Time, Weight, Volume).
 
@@ -329,6 +340,7 @@ console.log(length1.isLessThan(length2)) // true
 
 <details>
 <summary>isGreaterThan(singleMeasurement)</summary>
+
 Parameters:
 - singleMeasurement [SingleMeasurement]: A SingleMeasurement object of the same subtype (i.e. Length, Time, Weight, Volume).
 
