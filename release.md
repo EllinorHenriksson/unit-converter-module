@@ -12,13 +12,13 @@
   - [x] De flesta testfall fungerar
   - [x] Koden är förberedd på Återanvändning
   - [x] All kod samt historik finns i git 
-  - [ ] Kodkvaliterskraven är ifyllda
-  - [ ] Reflektion är skriven utifrån bokens kapitel 
+  - [x] Kodkvaliterskraven är ifyllda
+  - [x] Reflektion är skriven utifrån bokens kapitel 
 - [x] Jag eftersträvar med denna inlämning högre betyg (C-B) och anser mig uppfylla alla extra krav för detta. 
   - [x] Samtliga testfall är skrivna
   - [x] Testfall är automatiserade
   - [x] Det finns en tydlig beskrivning i hur modulen skall användas (i git)
-  - [ ] Kodkvalitetskraven är varierade 
+  - [x] Kodkvalitetskraven är varierade 
 - [ ] Jag eftersträvar med denna inlämning högsta betyg (A) 
 ​
 Förtydligande: Examinator kommer sätta betyg oberoende på vad ni anser. 
@@ -41,15 +41,13 @@ SingleMeasurement-objekten (d.v.s. objekt av subtyperna Length, Time, Weight, Vo
 Koden är testad med automatiska enhetsteter i testningsramverket Jest. Dessutom testar exempelapplikationen alla metoder.
 ​
 ### Testfall
-Allt testas med automatiska enhetstester förutom en if-sats i konstruktorerna i de abstrakta klasserna Measurement, SingleMeasurement och CombinedMeasurement, samt metoden mergeAllInto() i klassen Converter. Anledningen till det är att jag inte lyckades komma fram till hur jag skulle skriva testerna trots att jag sökt information om det. (Jag har väldigt liten erfarenhet av att skriva automatiska enhetstester men har försökt så gott jag kunnat.) Dessa enheter testas dock av exempelappen.
-​
+Allt testas med automatiska enhetstester förutom en if-sats i konstruktorerna i de abstrakta klasserna Measurement, SingleMeasurement och CombinedMeasurement, samt metoden mergeAllInto() i klassen Converter. Anledningen till det är att jag inte lyckades komma fram till hur jag skulle skriva testerna trots att jag sökt information om det. (Jag har väldigt liten erfarenhet av att skriva automatiska enhetstester men har försökt så gott jag kunnat.) Dessa enheter testas dock av exempelappen.   
+
 [Testrapport](./images/testrapport.jpg)
 
 Allt som är testat fungerar och jag har förökt att göra testerna så heltäckande av kodbasen som möjligt. 
 ​
 ## Kodkvalitetskrav
-​
-**Fetmarkera** de "regler" som används ur CC. Ni kan frångå tabellformat om ni vill. Skapa direktlänkar till er kod där det är lämpligt. Skriv så att jag kan förstå.
 ​
 ### Namngivning
 ​
