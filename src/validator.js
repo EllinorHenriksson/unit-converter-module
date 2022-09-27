@@ -11,13 +11,13 @@ import { SingleMeasurement } from './measurements/singleMeasurement.js'
  * @typedef Unit
  * @type {object}
  * @property {string} abbr - Abbreviation.
- * @property {number} ratio .
+ * @property {number} ratio - Ratio
  */
 
 /**
  * @typedef Units
  * @type {object}
- * @property {Unit} unitName - (Multiple properties)
+ * @property {Unit} unitName - Unit name holding a unit
  */
 
 /**
@@ -39,7 +39,7 @@ export class Validator {
   /**
    * Validates units, wich must be a reference to one of the units objects (e.g. LengthUnits).
    *
-   * @param {Units} units .
+   * @param {Units} units - The units to validate (e.g. LengthUnits).
    */
   validateUnits (units) {
     if (!this.#units.includes(units)) {
@@ -50,7 +50,7 @@ export class Validator {
   /**
    * Validates quantity, wich must be a number greater than 0.
    *
-   * @param {number} quantity .
+   * @param {number} quantity - The quantity to validate.
    */
   validateQuantity (quantity) {
     const errorMessage = 'Quantity must be a number greater than 0.'
@@ -65,8 +65,8 @@ export class Validator {
   /**
    * Validates a unit abbreviation, wich must be equal to the abbreviation of one of the units in the units object (e.g. LengthUnits).
    *
-   * @param {string} unitAbbreviation .
-   * @param {Units} units .
+   * @param {string} unitAbbreviation - The unit abbreviation to validate.
+   * @param {Units} units - The units to validate against (e.g. LengthUnits).
    */
   validateUnitAbbreviation (unitAbbreviation, units) {
     this.validateUnits(units)
@@ -81,8 +81,8 @@ export class Validator {
   /**
    * Validates a measurement, wich must be an instance of the measurement subtype.
    *
-   * @param {Measurement} measurement .
-   * @param {Measurement} subtype .
+   * @param {Measurement} measurement - The measurement to validate.
+   * @param {Measurement} subtype - The subtype to validate against.
    */
   validateMeasurementType (measurement, subtype) {
     if (!(measurement instanceof subtype)) {
@@ -93,7 +93,7 @@ export class Validator {
   /**
    * Validates single measurements, wich must be an array of single measurements of the same subtype.
    *
-   * @param {SingleMeasurement[]} singleMeasurements .
+   * @param {SingleMeasurement[]} singleMeasurements - An array of single measurements to validate.
    */
   validateSingleMeasurements (singleMeasurements) {
     const errorMessage = 'Measurements must be an array of single measurements of the same subtype.'

@@ -20,13 +20,13 @@ import { VolumeUnits } from './units/volumeUnits.js'
  * @typedef Unit
  * @type {object}
  * @property {string} abbr - Abbreviation.
- * @property {number} ratio .
+ * @property {number} ratio - Ratio
  */
 
 /**
  * @typedef Units
  * @type {object}
- * @property {Unit} unitName - (Multiple properties)
+ * @property {Unit} unitName - Unit name holding a unit
  */
 
 /**
@@ -86,7 +86,7 @@ export class Converter {
   /**
    * Returns an array with the names of the available measurement types.
    *
-   * @returns {string[]} .
+   * @returns {string[]} The array with the names of the available measurement types.
    */
   get measurementTypes () {
     return this.#measurementTypes.map(x => x.name.toLowerCase())
@@ -95,7 +95,7 @@ export class Converter {
   /**
    * Gets the available length units as an array of abbreviations.
    *
-   * @returns {string[]} .
+   * @returns {string[]} The available length units as an array of unit abbreviations.
    */
   get lengthUnits () {
     return Object.values(this.#lengthUnits).map(x => x.abbr)
@@ -104,7 +104,7 @@ export class Converter {
   /**
    * Gets the available time units as an array of abbreviations.
    *
-   * @returns {string[]} .
+   * @returns {string[]}  The available time units as an array of unit abbreviations.
    */
   get timeUnits () {
     return Object.values(this.#timeUnits).map(x => x.abbr)
@@ -113,7 +113,7 @@ export class Converter {
   /**
    * Gets the available weight units as an array of abbreviations.
    *
-   * @returns {string[]} .
+   * @returns {string[]}  The available weight units as an array of unit abbreviations.
    */
   get weightUnits () {
     return Object.values(this.#weightUnits).map(x => x.abbr)
@@ -122,7 +122,7 @@ export class Converter {
   /**
    * Gets the available volume units as an array of abbreviations.
    *
-   * @returns {string[]} .
+   * @returns {string[]}  The available volume units as an array of unit abbreviations.
    */
   get volumeUnits () {
     return Object.values(this.#volumeUnits).map(x => x.abbr)
@@ -131,7 +131,7 @@ export class Converter {
   /**
    * Gets the available speed units as an array of abbreviations.
    *
-   * @returns {string[]} .
+   * @returns {string[]}  The available speed units as an array of unit abbreviations.
    */
   get speedUnits () {
     return Object.values(this.#speedUnits).map(x => x.abbr)
@@ -140,9 +140,9 @@ export class Converter {
   /**
    * Creates and returns a Length object.
    *
-   * @param {number} quantity .
-   * @param {string} unitAbbreviation .
-   * @returns {Length} .
+   * @param {number} quantity - The quantity of the measurement.
+   * @param {string} unitAbbreviation - The abbreviation of the unit of the measurement.
+   * @returns {Length} - A length object.
    */
   length (quantity, unitAbbreviation) {
     return new Length(quantity, unitAbbreviation)
@@ -151,9 +151,9 @@ export class Converter {
   /**
    * Creates and returns a Time object.
    *
-   * @param {number} quantity .
-   * @param {string} unitAbbreviation .
-   * @returns {Time} .
+   * @param {number} quantity - The quantity of the measurement.
+   * @param {string} unitAbbreviation - The abbreviation of the unit of the measurement.
+   * @returns {Time} - A time object.
    */
   time (quantity, unitAbbreviation) {
     return new Time(quantity, unitAbbreviation)
@@ -162,9 +162,9 @@ export class Converter {
   /**
    * Creates and returns a Weight object.
    *
-   * @param {number} quantity .
-   * @param {string} unitAbbreviation .
-   * @returns {Weight} .
+   * @param {number} quantity - The quantity of the measurement.
+   * @param {string} unitAbbreviation - The abbreviation of the unit of the measurement.
+   * @returns {Weight} - A weight object.
    */
   weight (quantity, unitAbbreviation) {
     return new Weight(quantity, unitAbbreviation)
@@ -173,9 +173,9 @@ export class Converter {
   /**
    * Creates and returns a Volume object.
    *
-   * @param {number} quantity .
-   * @param {string} unitAbbreviation .
-   * @returns {Weight} .
+   * @param {number} quantity - The quantity of the measurement.
+   * @param {string} unitAbbreviation - The abbreviation of the unit of the measurement.
+   * @returns {Volume} - A volume object.
    */
   volume (quantity, unitAbbreviation) {
     return new Volume(quantity, unitAbbreviation)
@@ -184,9 +184,9 @@ export class Converter {
   /**
    * Creates and returns a Speed object.
    *
-   * @param {number} quantity .
-   * @param {string} unitAbbreviation .
-   * @returns {Speed} .
+   * @param {number} quantity - The quantity of the measurement.
+   * @param {string} unitAbbreviation - The abbreviation of the unit of the measurement.
+   * @returns {Speed} - A speed object.
    */
   speed (quantity, unitAbbreviation) {
     return new Speed(quantity, unitAbbreviation)
@@ -195,9 +195,9 @@ export class Converter {
   /**
    * Instantiates a speed object from a length object and a time object and returns it.
    *
-   * @param {Length} length .
-   * @param {Time} time .
-   * @returns {Speed} .
+   * @param {Length} length - A length object.
+   * @param {Time} time - A time object.
+   * @returns {Speed} The resulting Speed object.
    */
   speedFromLengthAndTime (length, time) {
     this.#validator.validateMeasurementType(length, Length)
@@ -210,9 +210,9 @@ export class Converter {
   /**
    * Merges many single measurements of the same type into one single measurement in the given unit and returns it.
    *
-   * @param {SingleMeasurement[]} measurements .
-   * @param {string} unitAbbreviation .
-   * @returns {SingleMeasurement} .
+   * @param {SingleMeasurement[]} measurements - An array of SingleMeasurement subtypes (e.g. Length)
+   * @param {string} unitAbbreviation - The abbreviation of the unit to merge the measurements into.
+   * @returns {SingleMeasurement} - A SingleMeasurement (e.g. Length) subtype object
    */
   mergeAllInto (measurements, unitAbbreviation) {
     this.#validator.validateSingleMeasurements(measurements)
