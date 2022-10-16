@@ -43,8 +43,8 @@ describe('Validator', () => {
   })
 
   describe('.validateQuantity()', () => {
-    const validArgs = [1, 0.5, 1.5, 1.5e-5, 1.5e+5]
-    const invalidNumberArgs = [0, -1, -1.5]
+    const validArgs = [0, 1, 0.5, 1.5, 1.5e-5, 1.5e+5]
+    const invalidNumberArgs = [-1, -1.5]
     const invalidArgsOther = ['string', {}, []]
 
     test('defines a function', () => {

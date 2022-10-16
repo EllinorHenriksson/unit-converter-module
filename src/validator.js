@@ -48,16 +48,16 @@ export class Validator {
   }
 
   /**
-   * Validates quantity, wich must be a number greater than 0.
+   * Validates quantity, wich must be a positive number.
    *
    * @param {number} quantity - The quantity to validate.
    */
   validateQuantity (quantity) {
-    const errorMessage = 'Quantity must be a number greater than 0.'
+    const errorMessage = 'Quantity must be a positive number.'
 
     if (typeof quantity !== 'number') {
       throw new TypeError(errorMessage)
-    } else if (quantity <= 0) {
+    } else if (quantity < 0) {
       throw new RangeError(errorMessage)
     }
   }
