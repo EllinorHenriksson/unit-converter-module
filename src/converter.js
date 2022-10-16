@@ -217,7 +217,7 @@ export class Converter {
   mergeAllInto (measurements, unitAbbreviation) {
     this.#validator.validateSingleMeasurements(measurements)
 
-    let merge = measurements[0]
+    let merge = measurements[0].convertTo(unitAbbreviation)
 
     for (let i = 0; i < measurements.length - 1; i++) {
       merge = merge.mergeWithInto(measurements[i + 1], unitAbbreviation)
