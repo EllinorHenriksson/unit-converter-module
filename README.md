@@ -480,6 +480,3 @@ console.log(length1.isGreaterThan(length2)) // true
 
 ## Example application
 The example-app directory contains code that imports and uses the module to exemplify the usage of it. To run the example app, enter `npm start` in the command prompt.
-
-## Tests
-The module is tested with automatic unit testing in Jest. To run the tests, enter `npm run test` in the command prompt.
