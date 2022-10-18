@@ -1,7 +1,29 @@
 # converter
 This module lets the user create measurments of different types, convert them to different units, merge them with each other and check if they are equal, less than or greater than other measurements.
 
+```
+import { converter } from '../src/index.js'
+
+console.log('Length units:', converter.lengthUnits) // ['m',  'km', 'dm', 'cm', 'mm', 'µm',
+  'nm', 'mi', 'yd', 'ft', 'in']
+
+const myLengthInM = converter.length(1, 'm')
+console.log(myLengthInM.toString()) // 1m (1m)
+
+const myLengthInCm = myLengthInM.convertTo('cm')
+console.log(myLengthInCm.toString()) // 100cm (1m)
+
+console.log(myLengthInM.isEqualTo(myLengthInCm)) // true
+console.log(myLengthInM.isLessThan(myLengthInCm)) // false
+console.log(myLengthInM.isGreaterThan(myLengthInCm)) // false
+
+const merge = myLengthInM.mergeWithInto(myLengthInCm, 'mm')
+console.log(merge.toString()) // 2000mm (2m)
+```
+
 ## Measurements
+Below are the measurement types that the module supports.
+
 ### Single measurements
 - Length
 - Time
@@ -10,6 +32,108 @@ This module lets the user create measurments of different types, convert them to
 
 ### Combined measurements
 - Speed
+
+## Units
+Below are the abbreviations of the available units of the respective measurement type. You use these as strings when working with the module, for example when you want to create a measurement:
+
+```
+const myLengthInM = converter.length(1, 'm')
+```
+<details>
+<summary>Length</summary>
+
+- m
+- km
+- dm
+- cm
+- mm
+- µm
+- nm
+- mi
+- yd
+- ft
+- in
+</details>
+
+<details>
+<summary>Time</summary>
+
+- s
+- ms
+- min
+- h
+- d
+- week
+- month
+- y
+- decade
+- century
+- millenium
+</details>
+
+<details>
+<summary>Weight</summary>
+
+- kg
+- hg
+- g
+- mg
+- µg
+- t
+- lbs
+- oz
+</details>
+
+<details>
+<summary>Volume</summary>
+
+- m^3
+- km^3
+- dm^3
+- cm^3
+- mm^3
+- L
+- dl
+- cl
+- ml
+- µl
+- galUS
+- galUK
+- qtUS
+- qtUK
+- ptUS
+- ptUK
+- cup
+- tbsp
+- tsp
+</details>
+
+<details>
+<summary>Speed</summary>
+
+- m/s
+- km/h
+- km/min
+- km/s
+- m/h
+- m/min
+- cm/h
+- cm/min
+- cm/s
+- mm/h
+- mm/min
+- mm/s
+- mi/h
+- mi/min
+- mi/s
+- yd/h
+- yd/min
+- yd/s
+- ft/h
+- ft/min
+- ft/s
+- kn
+</details>
 
 ## Getting started
 Download the module to the root folder of your project.
