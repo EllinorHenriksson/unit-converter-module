@@ -1,7 +1,6 @@
 import { Validator } from './validator.js'
 
 // Import measurements
-import { Measurement } from './measurements/measurement.js'
 import { SingleMeasurement } from './measurements/singleMeasurement.js'
 import { Length } from './measurements/length.js'
 import { Time } from './measurements/time.js'
@@ -64,7 +63,7 @@ export class Converter {
   #speedUnits
 
   /**
-   * @type {Measurement[]}
+   * @type {string[]}
    */
   #measurementTypes
 
@@ -80,7 +79,7 @@ export class Converter {
     this.#volumeUnits = VolumeUnits
     this.#speedUnits = SpeedUnits
 
-    this.#measurementTypes = [Length, Time, Weight, Volume, Speed]
+    this.#measurementTypes = ['length', 'time', 'weight', 'volume', 'speed']
   }
 
   /**
@@ -89,7 +88,7 @@ export class Converter {
    * @returns {string[]} The array with the names of the available measurement types.
    */
   get measurementTypes () {
-    return this.#measurementTypes.map(x => x.name.toLowerCase())
+    return this.#measurementTypes
   }
 
   /**
