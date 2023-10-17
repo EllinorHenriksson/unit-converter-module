@@ -1,4 +1,4 @@
-# converter
+# Unit converter module
 This module lets the user create measurments of different types, convert them to different units, merge them with each other and check if they are equal, less than or greater than other measurements.
 
 ```
